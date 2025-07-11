@@ -228,6 +228,10 @@ php artisan optimize
 - [📝 Form Requests y Validación](docs/09-form-requests-validacion-laravel.md)
 - [🔧 Middleware](docs/10-middleware-laravel.md)
 
+#### ✅ **Fase 4: Frontend y Componentes**
+- [🧩 Componentes Blade](docs/11-componentes-blade-laravel.md)
+- [🎨 Tailwind CSS](docs/12-tailwind-css-laravel.md)
+
 ## 👥 Contribución
 
 1. Fork el proyecto
@@ -400,10 +404,11 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Link del repositorio agregado
 - ✅ Página principal para guest planificada
 - ✅ Sistema de componentes y navegación definido
-- ✅ Documentación completa creada (10 archivos de docs)
+- ✅ Documentación completa creada (12 archivos de docs)
 - ✅ Fase 1 completada: Fundamentos básicos (estructura, rutas, Blade, comandos)
 - ✅ Fase 2 completada: Base de datos y modelos (Eloquent, migraciones, seeders, consultas)
 - ✅ Fase 3 completada: Controladores y lógica de negocio (controladores, validación, middleware)
+- ✅ Fase 4 completada: Frontend y componentes (componentes Blade, Tailwind CSS)
 
 ---
 
