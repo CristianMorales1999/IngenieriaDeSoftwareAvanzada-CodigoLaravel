@@ -236,6 +236,9 @@ php artisan optimize
 - [🔐 Autenticación](docs/13-autenticacion-laravel.md)
 - [🛡️ Seguridad](docs/14-seguridad-laravel.md)
 
+#### ✅ **Fase 6: Gestión de Archivos**
+- [📁 Gestión de Archivos](docs/15-gestion-archivos-laravel.md)
+
 ## 👥 Contribución
 
 1. Fork el proyecto
@@ -408,12 +411,13 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Link del repositorio agregado
 - ✅ Página principal para guest planificada
 - ✅ Sistema de componentes y navegación definido
-- ✅ Documentación completa creada (14 archivos de docs)
+- ✅ Documentación completa creada (15 archivos de docs)
 - ✅ Fase 1 completada: Fundamentos básicos (estructura, rutas, Blade, comandos)
 - ✅ Fase 2 completada: Base de datos y modelos (Eloquent, migraciones, seeders, consultas)
 - ✅ Fase 3 completada: Controladores y lógica de negocio (controladores, validación, middleware)
 - ✅ Fase 4 completada: Frontend y componentes (componentes Blade, Tailwind CSS)
 - ✅ Fase 5 completada: Autenticación y seguridad (login/register, roles/permisos, CSRF, validación, rate limiting)
+- ✅ Fase 6 completada: Gestión de archivos (subida, validación, optimización, almacenamiento)
 
 ---
 
