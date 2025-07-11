@@ -202,12 +202,19 @@ php artisan optimize
 
 ## 📚 Documentación
 
+### 📖 **Documentación Oficial**
 - [Documentación de Laravel](https://laravel.com/docs)
 - [Laravel Eloquent](https://laravel.com/docs/eloquent)
 - [Laravel Blade](https://laravel.com/docs/blade)
 - [Laravel Authentication](https://laravel.com/docs/authentication)
 - [Laravel File Storage](https://laravel.com/docs/filesystem)
 - [Laravel Validation](https://laravel.com/docs/validation)
+
+### 📋 **Documentación del Proyecto**
+- [📁 Estructura de Carpetas y Funcionamiento Básico](docs/01-estructura-proyecto-laravel.md)
+- [🛣️ Rutas y Parámetros](docs/02-rutas-parametros-laravel.md)
+- [🎨 Blade Templates y Plantillas](docs/03-blade-plantillas-laravel.md)
+- [🔧 Comandos Artisan](docs/04-comandos-artisan-laravel.md)
 
 ## 👥 Contribución
 
@@ -381,6 +388,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Link del repositorio agregado
 - ✅ Página principal para guest planificada
 - ✅ Sistema de componentes y navegación definido
+- ✅ Documentación completa creada (4 archivos de docs)
 
 ---
 
