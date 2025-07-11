@@ -215,6 +215,9 @@ php artisan optimize
 - [🛣️ Rutas y Parámetros](docs/02-rutas-parametros-laravel.md)
 - [🎨 Blade Templates y Plantillas](docs/03-blade-plantillas-laravel.md)
 - [🔧 Comandos Artisan](docs/04-comandos-artisan-laravel.md)
+- [🗄️ Eloquent ORM y Modelos](docs/05-eloquent-orm-modelos-laravel.md)
+- [🗄️ Migraciones y Seeders](docs/06-migraciones-seeders-laravel.md)
+- [🔍 Consultas Avanzadas](docs/07-consultas-avanzadas-laravel.md)
 
 ## 👥 Contribución
 
@@ -388,7 +391,8 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Link del repositorio agregado
 - ✅ Página principal para guest planificada
 - ✅ Sistema de componentes y navegación definido
-- ✅ Documentación completa creada (4 archivos de docs)
+- ✅ Documentación completa creada (7 archivos de docs)
+- ✅ Fase 2 completada: Eloquent ORM, Modelos, Migraciones, Seeders y Consultas Avanzadas documentados
 
 ---
 
