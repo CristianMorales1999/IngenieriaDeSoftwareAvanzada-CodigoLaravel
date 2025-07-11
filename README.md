@@ -239,6 +239,9 @@ php artisan optimize
 #### ✅ **Fase 6: Gestión de Archivos**
 - [📁 Gestión de Archivos](docs/15-gestion-archivos-laravel.md)
 
+#### ✅ **Fase 7: Testing y Optimización**
+- [🧪 Testing y Optimización](docs/fase-7-testing-optimizacion.md)
+
 ## 👥 Contribución
 
 1. Fork el proyecto
@@ -418,6 +421,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Fase 4 completada: Frontend y componentes (componentes Blade, Tailwind CSS)
 - ✅ Fase 5 completada: Autenticación y seguridad (login/register, roles/permisos, CSRF, validación, rate limiting)
 - ✅ Fase 6 completada: Gestión de archivos (subida, validación, optimización, almacenamiento)
+- ✅ Fase 7 completada: Testing y optimización (tests unitarios, integración, autenticación, factories, optimización)
 
 ---
 
