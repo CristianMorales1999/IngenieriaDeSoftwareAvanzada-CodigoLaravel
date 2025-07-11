@@ -211,13 +211,22 @@ php artisan optimize
 - [Laravel Validation](https://laravel.com/docs/validation)
 
 ### 📋 **Documentación del Proyecto**
+
+#### ✅ **Fase 1: Fundamentos Básicos**
 - [📁 Estructura de Carpetas y Funcionamiento Básico](docs/01-estructura-proyecto-laravel.md)
 - [🛣️ Rutas y Parámetros](docs/02-rutas-parametros-laravel.md)
 - [🎨 Blade Templates y Plantillas](docs/03-blade-plantillas-laravel.md)
 - [🔧 Comandos Artisan](docs/04-comandos-artisan-laravel.md)
+
+#### ✅ **Fase 2: Base de Datos y Modelos**
 - [🗄️ Eloquent ORM y Modelos](docs/05-eloquent-orm-modelos-laravel.md)
 - [🗄️ Migraciones y Seeders](docs/06-migraciones-seeders-laravel.md)
 - [🔍 Consultas Avanzadas](docs/07-consultas-avanzadas-laravel.md)
+
+#### ✅ **Fase 3: Controladores y Lógica de Negocio**
+- [📋 Controladores](docs/08-controladores-laravel.md)
+- [📝 Form Requests y Validación](docs/09-form-requests-validacion-laravel.md)
+- [🔧 Middleware](docs/10-middleware-laravel.md)
 
 ## 👥 Contribución
 
@@ -391,8 +400,10 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - ✅ Link del repositorio agregado
 - ✅ Página principal para guest planificada
 - ✅ Sistema de componentes y navegación definido
-- ✅ Documentación completa creada (7 archivos de docs)
-- ✅ Fase 2 completada: Eloquent ORM, Modelos, Migraciones, Seeders y Consultas Avanzadas documentados
+- ✅ Documentación completa creada (10 archivos de docs)
+- ✅ Fase 1 completada: Fundamentos básicos (estructura, rutas, Blade, comandos)
+- ✅ Fase 2 completada: Base de datos y modelos (Eloquent, migraciones, seeders, consultas)
+- ✅ Fase 3 completada: Controladores y lógica de negocio (controladores, validación, middleware)
 
 ---
 
