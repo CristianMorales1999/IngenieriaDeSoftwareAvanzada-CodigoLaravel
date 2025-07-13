@@ -2,13 +2,14 @@
 
 ## 📋 **¿Qué es Artisan?**
 
-Artisan es la interfaz de línea de comandos incluida con Laravel. Proporciona comandos útiles para el desarrollo y mantenimiento de aplicaciones Laravel.
+Artisan es la interfaz de línea de comandos incluida con Laravel. Proporciona comandos útiles para el desarrollo y mantenimiento de aplicaciones Laravel. Es como tener un asistente de desarrollo que automatiza tareas repetitivas.
 
 ### 🎯 **Características Principales**
-- **Comandos integrados**: Funcionalidades básicas de Laravel
-- **Comandos personalizados**: Crear tus propios comandos
-- **Autocompletado**: Ayuda en la terminal
-- **Ayuda integrada**: Documentación de cada comando
+- **Comandos integrados**: Funcionalidades básicas de Laravel (crear archivos, ejecutar migraciones, etc.)
+- **Comandos personalizados**: Crear tus propios comandos para automatizar tareas específicas
+- **Autocompletado**: Ayuda en la terminal con sugerencias de comandos
+- **Ayuda integrada**: Documentación de cada comando con `--help`
+- **Productividad**: Acelera el desarrollo automatizando tareas repetitivas
 
 ## 🚀 **Comandos Básicos de Artisan**
 
@@ -16,61 +17,96 @@ Artisan es la interfaz de línea de comandos incluida con Laravel. Proporciona c
 ```bash
 php artisan list
 ```
+**Explicación:** Muestra todos los comandos Artisan disponibles en tu aplicación Laravel, incluyendo comandos integrados y personalizados.
 
 ### 📋 **Obtener Ayuda de un Comando**
 ```bash
 php artisan help make:controller
 php artisan make:controller --help
 ```
+**Explicación:** Muestra la documentación completa de un comando específico, incluyendo opciones, argumentos y ejemplos de uso.
 
 ### 📋 **Ver Información de la Aplicación**
 ```bash
 php artisan about
 ```
+**Explicación:** Muestra información detallada sobre tu aplicación Laravel: versión, entorno, configuración de base de datos, etc.
 
 ## 🏗️ **Comandos de Generación (make:)**
 
 ### 🎮 **Controladores**
+Los controladores manejan las peticiones HTTP y contienen la lógica de negocio de tu aplicación:
+
 ```bash
-# Crear controlador básico
+# Crear controlador básico - Solo la clase vacía
 php artisan make:controller ServicioController
 
-# Crear controlador con métodos CRUD
+# Crear controlador con métodos CRUD - Incluye index, create, store, show, edit, update, destroy
 php artisan make:controller ServicioController --resource
 
-# Crear controlador con métodos específicos
+# Crear controlador con métodos específicos - Incluye métodos CRUD y relación con modelo
 php artisan make:controller ServicioController --resource --model=Servicio
 
-# Crear controlador API
+# Crear controlador API - Optimizado para APIs (sin métodos create/edit)
 php artisan make:controller Api/ServicioController --api
 ```
 
+**Explicación de las opciones:**
+- **--resource**: Genera todos los métodos CRUD automáticamente
+- **--model=Servicio**: Incluye inyección de dependencias del modelo
+- **--api**: Genera métodos optimizados para APIs (sin vistas)
+- **Api/**: Crea el controlador en la subcarpeta Api/ para organizar mejor
+
 ### 📊 **Modelos**
+Los modelos representan las tablas de la base de datos y contienen la lógica de interacción con los datos:
+
 ```bash
-# Crear modelo básico
+# Crear modelo básico - Solo la clase del modelo
 php artisan make:model Servicio
 
-# Crear modelo con migración
+# Crear modelo con migración - Incluye archivo de migración para crear la tabla
 php artisan make:model Servicio -m
 
-# Crear modelo con migración, factory y seeder
+# Crear modelo con migración, factory y seeder - Todo lo necesario para datos de prueba
 php artisan make:model Servicio -mfs
 
-# Crear modelo con todo (migración, factory, seeder, controller)
+# Crear modelo con todo - Incluye migración, factory, seeder y controlador
 php artisan make:model Servicio -mfsr
 ```
 
+**Explicación de las opciones:**
+- **-m**: Crea una migración para definir la estructura de la tabla
+- **-f**: Crea una factory para generar datos de prueba
+- **-s**: Crea un seeder para poblar la base de datos con datos iniciales
+- **-r**: Crea un controlador resource para manejar operaciones CRUD
+- **-mfsr**: Combina todas las opciones anteriores (migración + factory + seeder + resource controller)
+
 ### 🗄️ **Migraciones**
+Las migraciones son como un "control de versiones" para tu base de datos. Permiten crear, modificar y eliminar tablas de manera programática:
+
 ```bash
-# Crear migración básica
+# Crear migración básica - Para crear una nueva tabla
 php artisan make:migration create_servicios_table
 
-# Crear migración para agregar columna
+# Crear migración para agregar columna - Para modificar una tabla existente
 php artisan make:migration add_precio_to_servicios_table
 
-# Crear migración para modificar columna
+# Crear migración para modificar columna - Para cambiar el tipo o propiedades de una columna
 php artisan make:migration modify_descripcion_in_servicios_table
 ```
+
+**Explicación de las convenciones de nombres:**
+- **create_*_table**: Para crear nuevas tablas
+- **add_*_to_*_table**: Para agregar columnas a tablas existentes
+- **modify_*_in_*_table**: Para modificar columnas existentes
+- **remove_*_from_*_table**: Para eliminar columnas
+- **rename_*_table**: Para renombrar tablas
+
+**Ventajas de las migraciones:**
+- Control de versiones de la base de datos
+- Reproducibilidad en diferentes entornos
+- Posibilidad de revertir cambios
+- Colaboración entre desarrolladores
 
 ### 🌱 **Seeders**
 ```bash

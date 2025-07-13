@@ -3,87 +3,146 @@
 ## 📋 **Conceptos Básicos de Rutas**
 
 ### 🎯 **¿Qué son las Rutas?**
-Las rutas son la forma en que Laravel mapea las URLs a controladores y métodos específicos. Son el punto de entrada de todas las peticiones HTTP.
+Las rutas son la forma en que Laravel mapea las URLs a controladores y métodos específicos. Son el punto de entrada de todas las peticiones HTTP. Cuando un usuario visita una URL, Laravel busca en las rutas para saber qué controlador y método debe ejecutar.
 
 ### 📁 **Archivos de Rutas**
 ```
 routes/
-├── web.php      # Rutas web (con sesión, CSRF)
-├── api.php      # Rutas API (sin sesión)
-├── console.php  # Comandos Artisan
-└── channels.php # Canales de broadcasting
+├── web.php      # Rutas web (con sesión, CSRF, middleware web)
+├── api.php      # Rutas API (sin sesión, para aplicaciones móviles/frontend)
+├── console.php  # Comandos Artisan (tareas de consola)
+└── channels.php # Canales de broadcasting (WebSockets, eventos en tiempo real)
 ```
+
+**Explicación de cada archivo:**
+- **web.php**: Contiene rutas para navegadores web con autenticación y protección CSRF
+- **api.php**: Contiene rutas para APIs sin sesiones, usando tokens de autenticación
+- **console.php**: Define comandos personalizados que puedes ejecutar con `php artisan`
+- **channels.php**: Configura comunicación en tiempo real con WebSockets
 
 ## 🚀 **Tipos de Rutas Básicas**
 
 ### 📝 **Rutas GET (Leer)**
+Las rutas GET se usan para obtener información. Son las más comunes y se ejecutan cuando un usuario visita una página:
+
 ```php
-// Ruta simple
+// Ruta simple - Cuando alguien visita /servicios, ejecuta el método 'index' del ServicioController
 Route::get('/servicios', [ServicioController::class, 'index']);
 
-// Ruta con nombre
+// Ruta con nombre - Permite generar URLs usando route('servicios.index')
 Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios.index');
 
-// Ruta que retorna vista directamente
+// Ruta que retorna vista directamente - Sin controlador, devuelve una vista
 Route::get('/about', function () {
-    return view('about');
+    return view('about'); // Devuelve la vista 'about.blade.php'
 });
 ```
 
+**Explicación:**
+- **GET** es el método HTTP más común para obtener datos
+- **ServicioController::class** es la clase del controlador
+- **'index'** es el método que se ejecutará en el controlador
+- **->name()** asigna un nombre a la ruta para poder referenciarla después
+
 ### 📝 **Rutas POST (Crear)**
+Las rutas POST se usan para enviar datos al servidor, generalmente desde formularios. Los datos se envían en el cuerpo de la petición HTTP:
+
 ```php
-// Crear nuevo servicio
+// Crear nuevo servicio - Cuando se envía un formulario a /servicios
 Route::post('/servicios', [ServicioController::class, 'store'])->name('servicios.store');
 
-// Formulario de contacto
+// Formulario de contacto - Procesa el formulario de contacto
 Route::post('/contacto', [ContactoController::class, 'enviar']);
 ```
 
+**Explicación:**
+- **POST** se usa para enviar datos al servidor (formularios, APIs)
+- Los datos se envían en el cuerpo de la petición HTTP (no en la URL)
+- Generalmente se usa con formularios HTML (`<form method="POST">`)
+- Laravel incluye protección CSRF automática para rutas POST
+
 ### 📝 **Rutas PUT/PATCH (Actualizar)**
+Las rutas PUT y PATCH se usan para actualizar datos existentes. PUT actualiza todo el recurso, PATCH solo partes específicas:
+
 ```php
-// Actualizar servicio completo
+// Actualizar servicio completo - PUT actualiza todos los campos del servicio
 Route::put('/servicios/{id}', [ServicioController::class, 'update'])->name('servicios.update');
 
-// Actualizar parcialmente
+// Actualizar parcialmente - PATCH actualiza solo algunos campos
 Route::patch('/servicios/{id}', [ServicioController::class, 'update']);
 ```
 
+**Explicación:**
+- **PUT**: Actualiza completamente un recurso (todos los campos)
+- **PATCH**: Actualiza parcialmente un recurso (solo algunos campos)
+- **{id}**: Es un parámetro dinámico que se reemplaza con el ID real
+- En HTML, se simulan con `<input type="hidden" name="_method" value="PUT">`
+
 ### 📝 **Rutas DELETE (Eliminar)**
+Las rutas DELETE se usan para eliminar recursos. Son importantes para operaciones CRUD completas:
+
 ```php
-// Eliminar servicio
+// Eliminar servicio - Elimina el servicio con el ID especificado
 Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
 ```
+
+**Explicación:**
+- **DELETE**: Se usa para eliminar recursos de la base de datos
+- **{id}**: Parámetro dinámico que identifica qué recurso eliminar
+- En HTML, se simula con `<input type="hidden" name="_method" value="DELETE">`
+- Es importante confirmar antes de eliminar (diálogos de confirmación)
 
 ## 🎯 **Parámetros en Rutas**
 
 ### 📌 **Parámetros Básicos**
+Los parámetros en rutas permiten capturar valores dinámicos de la URL. Se definen entre llaves `{}`:
+
 ```php
-// Parámetro simple
+// Parámetro simple - Captura el ID del servicio en la URL
 Route::get('/servicios/{id}', [ServicioController::class, 'show']);
+// URL: /servicios/123 → $id = "123"
 
-// Múltiples parámetros
+// Múltiples parámetros - Captura categoría e ID
 Route::get('/servicios/{categoria}/{id}', [ServicioController::class, 'show']);
+// URL: /servicios/consultoria/123 → $categoria = "consultoria", $id = "123"
 
-// Parámetros opcionales
+// Parámetros opcionales - El parámetro puede estar presente o no
 Route::get('/servicios/{id?}', [ServicioController::class, 'show']);
+// URL: /servicios/123 → $id = "123"
+// URL: /servicios → $id = null
 ```
+
+**Explicación:**
+- **{id}**: Parámetro obligatorio (la ruta no funciona sin él)
+- **{id?}**: Parámetro opcional (la ruta funciona con o sin él)
+- Los parámetros se pasan como argumentos al método del controlador
+- Los nombres de los parámetros deben coincidir con los argumentos del método
 
 ### 🔍 **Acceso a Parámetros en Controladores**
+Los parámetros de la ruta se reciben como argumentos en el método del controlador. El orden y nombre deben coincidir:
+
 ```php
+// Método con un parámetro - Recibe el ID de la ruta /servicios/{id}
 public function show($id)
 {
-    $servicio = Servicio::find($id);
-    return view('servicios.show', compact('servicio'));
+    $servicio = Servicio::find($id); // Busca el servicio por ID
+    return view('servicios.show', compact('servicio')); // Devuelve la vista con el servicio
 }
 
-// Múltiples parámetros
+// Método con múltiples parámetros - Recibe categoría e ID de /servicios/{categoria}/{id}
 public function show($categoria, $id)
 {
-    $servicio = Servicio::where('categoria', $categoria)
-                       ->find($id);
+    $servicio = Servicio::where('categoria', $categoria) // Filtra por categoría
+                       ->find($id); // Luego busca por ID
     return view('servicios.show', compact('servicio'));
 }
 ```
+
+**Explicación:**
+- Los parámetros de la ruta se pasan automáticamente al método del controlador
+- El orden de los argumentos debe coincidir con el orden en la ruta
+- Los nombres de los parámetros deben coincidir exactamente
+- Puedes usar estos parámetros para consultar la base de datos
 
 ## 🎯 **Tipos de Parámetros**
 

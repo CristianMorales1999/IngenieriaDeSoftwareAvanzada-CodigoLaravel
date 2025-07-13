@@ -2,19 +2,22 @@
 
 ## 📋 **¿Qué es Eloquent ORM?**
 
-Eloquent es el ORM (Object-Relational Mapping) de Laravel que permite trabajar con la base de datos usando objetos PHP en lugar de escribir SQL directamente. Proporciona una interfaz elegante y fluida para interactuar con la base de datos.
+Eloquent es el ORM (Object-Relational Mapping) de Laravel que permite trabajar con la base de datos usando objetos PHP en lugar de escribir SQL directamente. Proporciona una interfaz elegante y fluida para interactuar con la base de datos. Es como tener un "traductor" entre PHP y la base de datos.
 
 ### 🎯 **Características Principales**
-- **Active Record Pattern**: Cada modelo representa una tabla
-- **Relaciones**: Fácil definición de relaciones entre modelos
-- **Query Builder**: Construcción fluida de consultas
-- **Mutators/Accessors**: Transformación automática de datos
-- **Scopes**: Consultas reutilizables
-- **Mass Assignment**: Asignación masiva de datos
+- **Active Record Pattern**: Cada modelo representa una tabla de la base de datos
+- **Relaciones**: Fácil definición de relaciones entre modelos (uno a muchos, muchos a muchos, etc.)
+- **Query Builder**: Construcción fluida de consultas usando métodos PHP
+- **Mutators/Accessors**: Transformación automática de datos al guardar/leer
+- **Scopes**: Consultas reutilizables que encapsulan lógica común
+- **Mass Assignment**: Asignación masiva de datos de manera segura
+- **Eager Loading**: Carga eficiente de relaciones para evitar el problema N+1
 
 ## 🏗️ **Estructura de un Modelo Eloquent**
 
 ### 📝 **Modelo Básico**
+Un modelo Eloquent básico hereda de la clase `Model` y Laravel hace muchas cosas automáticamente:
+
 ```php
 <?php
 
@@ -31,7 +34,16 @@ class Servicio extends Model
 }
 ```
 
+**Explicación de las convenciones automáticas:**
+- **Tabla**: Laravel busca una tabla llamada `servicios` (plural del nombre del modelo)
+- **Clave primaria**: Usa `id` como clave primaria por defecto
+- **Timestamps**: Automáticamente maneja `created_at` y `updated_at`
+- **Namespace**: Los modelos van en `App\Models\`
+- **Nombre**: El nombre del modelo debe ser singular y PascalCase
+
 ### 🎯 **Modelo con Configuración Personalizada**
+Un modelo más completo con todas las configuraciones importantes para una aplicación real:
+
 ```php
 <?php
 
@@ -42,22 +54,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Servicio extends Model
 {
-    use HasFactory;
+    use HasFactory; // Permite usar factories para generar datos de prueba
 
     /**
      * La tabla asociada al modelo.
      */
-    protected $table = 'servicios';
+    protected $table = 'servicios'; // Especifica el nombre de la tabla
 
     /**
      * La clave primaria del modelo.
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id'; // Define la clave primaria
 
     /**
      * Indica si el modelo debe usar timestamps.
      */
-    public $timestamps = true;
+    public $timestamps = true; // Habilita created_at y updated_at automáticos
 
     /**
      * Los atributos que son asignables masivamente.
@@ -68,7 +80,7 @@ class Servicio extends Model
         'precio',
         'categoria_id',
         'activo'
-    ];
+    ]; // Campos que se pueden llenar con create() o fill()
 
     /**
      * Los atributos que deben ser ocultos para arrays.
@@ -76,19 +88,27 @@ class Servicio extends Model
     protected $hidden = [
         'created_at',
         'updated_at'
-    ];
+    ]; // Campos que no se incluyen en toArray() o toJson()
 
     /**
      * Los atributos que deben ser convertidos a tipos nativos.
      */
     protected $casts = [
-        'precio' => 'decimal:2',
-        'activo' => 'boolean',
-        'fecha_inicio' => 'datetime',
+        'precio' => 'decimal:2', // Convierte a decimal con 2 decimales
+        'activo' => 'boolean',    // Convierte a boolean (true/false)
+        'fecha_inicio' => 'datetime', // Convierte a objeto Carbon
         'fecha_fin' => 'datetime'
     ];
 }
 ```
+
+**Explicación de cada propiedad:**
+- **$table**: Especifica el nombre exacto de la tabla (útil si no sigue convenciones)
+- **$primaryKey**: Define la clave primaria (útil si no es 'id')
+- **$timestamps**: Controla si se usan timestamps automáticos
+- **$fillable**: Lista de campos que se pueden asignar masivamente (seguridad)
+- **$hidden**: Campos que se ocultan al convertir a array/JSON
+- **$casts**: Convierte tipos de datos automáticamente
 
 ## 🚀 **Creación de Modelos**
 

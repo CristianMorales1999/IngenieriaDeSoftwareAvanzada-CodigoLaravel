@@ -2,25 +2,35 @@
 
 ## 🎯 Introducción
 
-Los Form Requests en Laravel son clases especiales que encapsulan la lógica de validación, autorización y sanitización de datos. Permiten mantener los controladores limpios y reutilizar reglas de validación.
+Los Form Requests en Laravel son clases especiales que encapsulan la lógica de validación, autorización y sanitización de datos. Permiten mantener los controladores limpios y reutilizar reglas de validación. Son como "guardianes" que verifican que los datos que llegan a tu aplicación sean correctos y seguros.
 
 ## 📁 Estructura de Form Requests
 
 ### Ubicación
+Los Form Requests se organizan en la carpeta `app/Http/Requests/` siguiendo convenciones de nombres:
+
 ```
 app/Http/Requests/
-├── StoreServiceRequest.php
-├── UpdateServiceRequest.php
-├── StoreUserRequest.php
-├── UpdateUserRequest.php
-└── Api/
-    ├── ServiceApiRequest.php
-    └── UserApiRequest.php
+├── StoreServiceRequest.php      # Validación para crear servicios
+├── UpdateServiceRequest.php     # Validación para actualizar servicios
+├── StoreUserRequest.php         # Validación para crear usuarios
+├── UpdateUserRequest.php        # Validación para actualizar usuarios
+└── Api/                        # Subcarpeta para validaciones de API
+    ├── ServiceApiRequest.php    # Validación para API de servicios
+    └── UserApiRequest.php       # Validación para API de usuarios
 ```
+
+**Explicación de las convenciones:**
+- **Store*Request**: Para validar datos al crear nuevos recursos
+- **Update*Request**: Para validar datos al actualizar recursos existentes
+- **Api/**: Subcarpeta para validaciones específicas de APIs
+- **Nombres descriptivos**: Indican claramente qué validan
 
 ## 🚀 Crear Form Request
 
 ### Comando Artisan
+Los comandos para crear Form Requests son simples y siguen convenciones:
+
 ```bash
 php artisan make:request StoreServiceRequest
 php artisan make:request UpdateServiceRequest
@@ -28,6 +38,8 @@ php artisan make:request Api/ServiceApiRequest
 ```
 
 ### Estructura Básica
+Un Form Request completo incluye validación, autorización, mensajes personalizados y manejo de errores:
+
 ```php
 <?php
 
@@ -41,31 +53,34 @@ class StoreServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * Verifica si el usuario tiene permisos para crear servicios
      */
     public function authorize(): bool
     {
-        return true; // O lógica de autorización
+        return true; // O lógica de autorización más compleja
     }
 
     /**
      * Get the validation rules that apply to the request.
+     * Define las reglas de validación para cada campo
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:services,name',
-            'description' => 'required|string|min:10',
-            'price' => 'required|numeric|min:0|max:999999.99',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'tags' => 'nullable|array',
-            'tags.*' => 'string|max:50',
-            'is_active' => 'boolean'
+            'name' => 'required|string|max:255|unique:services,name', // Nombre obligatorio, único
+            'description' => 'required|string|min:10', // Descripción obligatoria, mínimo 10 caracteres
+            'price' => 'required|numeric|min:0|max:999999.99', // Precio obligatorio, numérico, rango válido
+            'category_id' => 'required|exists:categories,id', // Categoría obligatoria, debe existir
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Imagen opcional, tipos específicos
+            'tags' => 'nullable|array', // Tags opcional, debe ser array
+            'tags.*' => 'string|max:50', // Cada tag debe ser string, máximo 50 caracteres
+            'is_active' => 'boolean' // Campo booleano opcional
         ];
     }
 
     /**
      * Get custom messages for validator errors.
+     * Mensajes personalizados en español para errores de validación
      */
     public function messages(): array
     {
@@ -80,6 +95,7 @@ class StoreServiceRequest extends FormRequest
 
     /**
      * Get custom attributes for validator errors.
+     * Nombres personalizados para los campos en mensajes de error
      */
     public function attributes(): array
     {
@@ -94,6 +110,7 @@ class StoreServiceRequest extends FormRequest
 
     /**
      * Configure the validator instance.
+     * Validación personalizada adicional después de las reglas básicas
      */
     public function withValidator(Validator $validator): void
     {
@@ -106,10 +123,12 @@ class StoreServiceRequest extends FormRequest
 
     /**
      * Handle a failed validation attempt.
+     * Maneja errores de validación para APIs y web
      */
     protected function failedValidation(Validator $validator): void
     {
         if ($this->expectsJson()) {
+            // Para APIs: devuelve JSON con errores
             throw new HttpResponseException(
                 response()->json([
                     'message' => 'Los datos proporcionados no son válidos.',
@@ -118,10 +137,19 @@ class StoreServiceRequest extends FormRequest
             );
         }
 
+        // Para web: redirige con errores (comportamiento por defecto)
         parent::failedValidation($validator);
     }
 }
 ```
+
+**Explicación de cada método:**
+- **authorize()**: Verifica permisos del usuario (autorización)
+- **rules()**: Define reglas de validación para cada campo
+- **messages()**: Personaliza mensajes de error en español
+- **attributes()**: Define nombres amigables para los campos
+- **withValidator()**: Agrega validación personalizada adicional
+- **failedValidation()**: Maneja errores de manera diferente para APIs vs web
 
 ## 🔧 Reglas de Validación Básicas
 

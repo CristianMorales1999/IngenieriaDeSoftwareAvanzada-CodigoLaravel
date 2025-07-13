@@ -2,61 +2,84 @@
 
 ## 🎯 Introducción
 
-Laravel proporciona un sistema robusto de gestión de archivos que incluye subida, validación, optimización y almacenamiento de imágenes. Se integra con múltiples drivers de almacenamiento (local, S3, etc.) y ofrece herramientas para manipulación de imágenes.
+Laravel proporciona un sistema robusto de gestión de archivos que incluye subida, validación, optimización y almacenamiento de imágenes. Se integra con múltiples drivers de almacenamiento (local, S3, etc.) y ofrece herramientas para manipulación de imágenes. Es como tener un "gestor de archivos" que maneja todo el proceso desde la subida hasta el almacenamiento seguro.
 
 ## 🚀 Configuración Inicial
 
 ### 1. **Configuración de Almacenamiento**
+Laravel permite configurar múltiples "discos" de almacenamiento para diferentes tipos de archivos y ubicaciones:
+
 ```php
 // config/filesystems.php
 return [
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'local'), // Disco por defecto
 
     'disks' => [
         'local' => [
-            'driver' => 'local',
-            'root' => storage_path('app'),
+            'driver' => 'local',                    // Almacenamiento local
+            'root' => storage_path('app'),          // Ruta en el servidor
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
+            'driver' => 'local',                    // Almacenamiento público
+            'root' => storage_path('app/public'),   // Ruta accesible públicamente
+            'url' => env('APP_URL').'/storage',     // URL para acceder
+            'visibility' => 'public',               // Archivos públicos
         ],
 
         's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
+            'driver' => 's3',                       // Amazon S3
+            'key' => env('AWS_ACCESS_KEY_ID'),      // Clave de acceso AWS
+            'secret' => env('AWS_SECRET_ACCESS_KEY'), // Clave secreta AWS
+            'region' => env('AWS_DEFAULT_REGION'),   // Región de AWS
+            'bucket' => env('AWS_BUCKET'),           // Nombre del bucket
+            'url' => env('AWS_URL'),                 // URL personalizada
+            'endpoint' => env('AWS_ENDPOINT'),       // Endpoint personalizado
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
         'images' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/images'),
-            'url' => env('APP_URL').'/storage/images',
-            'visibility' => 'public',
+            'driver' => 'local',                    // Disco específico para imágenes
+            'root' => storage_path('app/public/images'), // Ruta para imágenes
+            'url' => env('APP_URL').'/storage/images',   // URL para imágenes
+            'visibility' => 'public',                // Imágenes públicas
         ],
     ],
 ];
 ```
 
+**Explicación de los discos:**
+- **local**: Archivos privados del sistema (configuraciones, logs)
+- **public**: Archivos accesibles públicamente (imágenes, documentos)
+- **s3**: Almacenamiento en la nube (escalable, redundante)
+- **images**: Disco específico para imágenes (organización)
+
 ### 2. **Crear Enlace Simbólico**
+Para que los archivos en `storage/app/public` sean accesibles desde el navegador:
+
 ```bash
 # Crear enlace simbólico para acceso público
 php artisan storage:link
 ```
 
+**Explicación:**
+- Crea un enlace simbólico de `public/storage` a `storage/app/public`
+- Permite acceder a archivos públicos desde URLs como `/storage/images/photo.jpg`
+- Solo se ejecuta una vez por proyecto
+
 ### 3. **Instalar Intervención Image**
+Para manipular y optimizar imágenes automáticamente:
+
 ```bash
 # Instalar para manipulación de imágenes
 composer require intervention/image
 ```
+
+**Explicación:**
+- **Intervention Image**: Biblioteca PHP para manipulación de imágenes
+- **Funcionalidades**: Redimensionar, recortar, optimizar, aplicar filtros
+- **Formatos**: JPEG, PNG, GIF, WebP, etc.
+- **Optimización**: Reduce tamaño de archivo manteniendo calidad
 
 ## 📤 Subida de Archivos
 

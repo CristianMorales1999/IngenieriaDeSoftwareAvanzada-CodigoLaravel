@@ -2,40 +2,50 @@
 
 ## 🎯 Introducción
 
-Laravel proporciona múltiples capas de seguridad para proteger aplicaciones web contra ataques comunes como CSRF, XSS, SQL injection, y ataques de fuerza bruta. La seguridad está integrada en el framework y se puede configurar fácilmente.
+Laravel proporciona múltiples capas de seguridad para proteger aplicaciones web contra ataques comunes como CSRF, XSS, SQL injection, y ataques de fuerza bruta. La seguridad está integrada en el framework y se puede configurar fácilmente. Es como tener un "sistema de defensa" que protege tu aplicación de múltiples amenazas.
 
 ## 🔒 CSRF Protection
 
 ### 1. **Configuración de CSRF**
+El CSRF (Cross-Site Request Forgery) protege contra ataques donde un sitio malicioso intenta hacer peticiones en nombre del usuario. La configuración se maneja en el archivo de sesiones:
+
 ```php
 // config/session.php
 return [
-    'driver' => env('SESSION_DRIVER', 'file'),
-    'lifetime' => env('SESSION_LIFETIME', 120),
-    'expire_on_close' => false,
-    'encrypt' => false,
-    'files' => storage_path('framework/sessions'),
-    'connection' => env('SESSION_CONNECTION'),
-    'table' => 'sessions',
-    'store' => env('SESSION_STORE'),
-    'lottery' => [2, 100],
-    'cookie' => env(
+    'driver' => env('SESSION_DRIVER', 'file'),        // Driver de sesión (file, database, redis)
+    'lifetime' => env('SESSION_LIFETIME', 120),       // Duración de la sesión en minutos
+    'expire_on_close' => false,                       // Si expira al cerrar el navegador
+    'encrypt' => false,                               // Si encriptar los datos de sesión
+    'files' => storage_path('framework/sessions'),    // Ruta para archivos de sesión
+    'connection' => env('SESSION_CONNECTION'),        // Conexión de BD para sesiones
+    'table' => 'sessions',                           // Tabla para sesiones en BD
+    'store' => env('SESSION_STORE'),                 // Store personalizado
+    'lottery' => [2, 100],                          // Probabilidad de limpiar sesiones
+    'cookie' => env(                                 // Nombre de la cookie de sesión
         'SESSION_COOKIE',
         Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
-    'path' => '/',
-    'domain' => env('SESSION_DOMAIN'),
-    'secure' => env('SESSION_SECURE_COOKIE'),
-    'http_only' => true,
-    'same_site' => 'lax',
+    'path' => '/',                                   // Ruta de la cookie
+    'domain' => env('SESSION_DOMAIN'),               // Dominio de la cookie
+    'secure' => env('SESSION_SECURE_COOKIE'),        // Solo HTTPS
+    'http_only' => true,                             // No accesible por JavaScript
+    'same_site' => 'lax',                           // Política SameSite
 ];
 ```
 
+**Explicación de las configuraciones de seguridad:**
+- **secure**: Solo envía cookies por HTTPS (producción)
+- **http_only**: Previene acceso por JavaScript (protege contra XSS)
+- **same_site**: Previene ataques CSRF entre sitios
+- **lifetime**: Controla cuánto tiempo dura la sesión
+
 ### 2. **Token CSRF en Formularios**
+Laravel automáticamente incluye protección CSRF en todos los formularios. El token se genera automáticamente y se verifica en cada petición POST:
+
 ```php
 {{-- Formulario con token CSRF --}}
 <form method="POST" action="{{ route('services.store') }}">
-    @csrf
+    @csrf  {{-- Genera automáticamente el token CSRF --}}
     <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
         <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
@@ -51,6 +61,12 @@ return [
     </button>
 </form>
 ```
+
+**Explicación de la protección CSRF:**
+- **@csrf**: Directiva Blade que genera un token único para cada sesión
+- **Verificación automática**: Laravel verifica el token en cada petición POST
+- **Prevención de ataques**: Impide que sitios maliciosos hagan peticiones en nombre del usuario
+- **Transparente**: No necesitas manejar el token manualmente
 
 ### 3. **Excluir Rutas de CSRF**
 ```php
