@@ -1,5 +1,23 @@
 @php
     $isAuthPage = request()->routeIs('login') || request()->routeIs('register');
+    $currentRoute = request()->route()->getName();
+    
+    // Función helper para verificar si una ruta está activa
+    function isRouteActive($routeName) {
+        $currentRoute = request()->route()->getName();
+        
+        // Verificar coincidencia exacta
+        if ($currentRoute === $routeName) {
+            return true;
+        }
+        
+        // Verificar rutas que empiecen con el patrón (para rutas con parámetros)
+        if (str_starts_with($currentRoute, $routeName . '.')) {
+            return true;
+        }
+        
+        return false;
+    }
 @endphp
 
 <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40 backdrop-blur-custom">
@@ -101,17 +119,25 @@
                             </div>
 
                             <!-- Menu Items -->
-                            <a href="{{ route('profile.edit') }}" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
-                                <i class="fas fa-user mr-3 text-gray-400"></i>
+                            <a href="{{ route('profile.edit') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('profile') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                <i class="fas fa-user mr-3 {{ isRouteActive('profile') ? 'text-blue-500' : 'text-gray-400' }}"></i>
                                 Mi Perfil
                             </a>
-                            <a href="{{ route('home') }}" class="block w-full text-left px-4 py-2 text-sm text-blue-600 bg-blue-50">
-                                <i class="fas fa-home mr-3 text-gray-400"></i>
+                            <a href="{{ route('home') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('home') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                <i class="fas fa-home mr-3 {{ isRouteActive('home') ? 'text-blue-500' : 'text-gray-400' }}"></i>
                                 Página Principal
                             </a>
-                            <a href="{{ route('dashboard') }}" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
-                                <i class="fas fa-th-large mr-3 text-gray-400"></i>
-                                Inicio
+                            <a href="{{ route('dashboard') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('dashboard') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                <i class="fas fa-th-large mr-3 {{ isRouteActive('dashboard') ? 'text-blue-500' : 'text-gray-400' }}"></i>
+                                Dashboard
+                            </a>
+                            <a href="{{ route('services.my') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('services.my') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                <i class="fas fa-briefcase mr-3 {{ isRouteActive('services.my') ? 'text-blue-500' : 'text-gray-400' }}"></i>
+                                Mis Servicios
+                            </a>
+                            <a href="{{ route('services.create') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('services.create') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                <i class="fas fa-plus mr-3 {{ isRouteActive('services.create') ? 'text-blue-500' : 'text-gray-400' }}"></i>
+                                Crear Servicio
                             </a>
                             <div class="border-t border-gray-100 my-1"></div>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
