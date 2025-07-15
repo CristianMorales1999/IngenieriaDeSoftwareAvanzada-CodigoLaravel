@@ -25,17 +25,75 @@
         
         <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
             <div class="px-6 py-4">
-                <form method="POST" action="#">
+                <!-- Session Status -->
+                @if(session('status'))
+                    <div class="p-4 rounded-lg border-l-4 bg-green-50 border-green-400 text-green-700 mb-4">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
                     
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                        <input type="email" id="email" name="email" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" required>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            value="{{ old('email') }}"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('email') border-red-500 focus:border-red-500 focus:ring-red-500 @enderror"
+                            placeholder="tu@email.com"
+                            required
+                            autofocus
+                            autocomplete="username"
+                        >
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-600">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
-                        <input type="password" id="password" name="password" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" required>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('password') border-red-500 focus:border-red-500 focus:ring-red-500 @enderror"
+                            required
+                            autocomplete="current-password"
+                        >
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-600">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="mb-4">
+                        <label for="remember" class="inline-flex items-center">
+                            <input 
+                                id="remember" 
+                                type="checkbox" 
+                                name="remember"
+                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500"
+                            >
+                            <span class="ml-2 text-sm text-gray-600">Recordarme</span>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-4">
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-500">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        @endif
                     </div>
 
                     <div class="mb-4">
@@ -49,4 +107,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

@@ -49,16 +49,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/servicios/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
 
-// Rutas de autenticación (si no están definidas en otro lugar)
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-
-Route::post('/logout', function () {
-    auth()->logout();
-    return redirect()->route('home');
-})->name('logout');
+// Rutas de autenticación (Breeze)
+require __DIR__.'/auth.php';
