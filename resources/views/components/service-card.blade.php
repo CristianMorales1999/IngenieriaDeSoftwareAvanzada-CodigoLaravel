@@ -1,6 +1,6 @@
 @props(['service'])
 
-<div class="card group hover:shadow-xl transition-all duration-300 animate-fade-in-up">
+<div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group border border-gray-100">
     <!-- Imagen del servicio -->
     <div class="relative overflow-hidden rounded-t-xl">
         @if($service->has_image)
@@ -18,7 +18,7 @@
         <!-- Badge de estado -->
         @if($service->isRecent())
             <div class="absolute top-3 left-3">
-                <span class="badge badge-success">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                     <i class="fas fa-star mr-1"></i>
                     Nuevo
                 </span>
@@ -29,7 +29,7 @@
         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
             <a 
                 href="{{ route('services.show', $service) }}" 
-                class="btn btn-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0"
+                class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0"
             >
                 <i class="fas fa-eye mr-2"></i>
                 Ver Detalles
@@ -38,7 +38,7 @@
     </div>
 
     <!-- Contenido de la tarjeta -->
-    <div class="card-body">
+    <div class="px-6 py-4">
         <!-- Título del servicio -->
         <h3 class="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-200">
             {{ $service->title }}
@@ -67,13 +67,13 @@
         <div class="flex space-x-2">
             <a 
                 href="{{ route('services.show', $service) }}" 
-                class="btn btn-primary flex-1 justify-center"
+                class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md flex-1 justify-center"
             >
                 <i class="fas fa-eye mr-2"></i>
                 Ver Detalles
             </a>
             <button 
-                class="btn btn-outline px-3"
+                class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 px-3"
                 title="Guardar en favoritos"
                 onclick="toggleFavorite({{ $service->id }})"
             >

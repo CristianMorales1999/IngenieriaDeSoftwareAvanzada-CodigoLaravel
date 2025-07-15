@@ -5,22 +5,22 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content animate-fade-in">
-            <h1 class="hero-title">
+    <section id="home" class="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
+        <div class="text-center max-w-4xl mx-auto px-4 animate-fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
                 Encuentra los mejores 
                 <span class="text-yellow-300">servicios profesionales</span>
             </h1>
-            <p class="hero-subtitle">
+            <p class="text-xl md:text-2xl mb-8 opacity-90">
                 Conectamos talento con oportunidades. Miles de profesionales verificados 
                 listos para ayudarte con cualquier proyecto.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#servicios" class="btn btn-primary text-lg px-8 py-4">
+                <a href="#servicios" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md">
                     <i class="fas fa-search mr-2"></i>
                     Explorar Servicios
                 </a>
-                <a href="{{ route('register') }}" class="btn btn-outline text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50">
+                <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-white text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-sm hover:shadow-md">
                     <i class="fas fa-user-plus mr-2"></i>
                     Registrarse
                 </a>
@@ -45,11 +45,11 @@
     </section>
 
     <!-- Nosotros Section -->
-    <section id="nosotros" class="section bg-white">
-        <div class="container-custom">
+    <section id="nosotros" class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="section-title">Sobre Nosotros</h2>
-                <p class="section-subtitle">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">Sobre Nosotros</h2>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
                     Somos una plataforma innovadora que conecta profesionales talentosos 
                     con clientes que necesitan servicios de calidad.
                 </p>
@@ -128,26 +128,26 @@
     </section>
 
     <!-- Servicios Section -->
-    <section id="servicios" class="section bg-gray-50">
-        <div class="container-custom">
+    <section id="servicios" class="py-16 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="section-title">Nuestros Servicios</h2>
-                <p class="section-subtitle">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">Nuestros Servicios</h2>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
                     Descubre una amplia gama de servicios profesionales 
                     para satisfacer todas tus necesidades.
                 </p>
             </div>
 
             <!-- Servicios destacados -->
-            <div class="services-grid mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 @forelse($featuredServices as $service)
                     <x-service-card :service="$service" />
                 @empty
                     <!-- Placeholder cards cuando no hay servicios -->
                     @for($i = 0; $i < 6; $i++)
-                        <div class="card animate-pulse">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 animate-pulse">
                             <div class="h-48 bg-gray-200 rounded-t-xl"></div>
-                            <div class="card-body">
+                            <div class="px-6 py-4">
                                 <div class="h-6 bg-gray-200 rounded mb-2"></div>
                                 <div class="h-4 bg-gray-200 rounded mb-2"></div>
                                 <div class="h-4 bg-gray-200 rounded mb-4"></div>
@@ -160,7 +160,7 @@
 
             <!-- Botón ver todos -->
             <div class="text-center">
-                <a href="{{ route('services.index') }}" class="btn btn-primary text-lg px-8 py-4">
+                <a href="{{ route('services.index') }}" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md">
                     <i class="fas fa-th-large mr-2"></i>
                     Ver Todos los Servicios
                 </a>
@@ -169,11 +169,11 @@
     </section>
 
     <!-- Contacto Section -->
-    <section id="contacto" class="section bg-white">
-        <div class="container-custom">
+    <section id="contacto" class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="section-title">Contáctanos</h2>
-                <p class="section-subtitle">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">Contáctanos</h2>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
                     ¿Tienes alguna pregunta o necesitas ayuda? 
                     Estamos aquí para ayudarte.
                 </p>
@@ -238,16 +238,16 @@
                     <div class="pt-6 border-t border-gray-200">
                         <h4 class="font-semibold text-gray-900 mb-4">Síguenos</h4>
                         <div class="flex space-x-4">
-                            <a href="#" class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors duration-200">
+                            <a href="#" class="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors duration-200">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-blue-400 rounded-lg flex items-center justify-center text-white hover:bg-blue-500 transition-colors duration-200">
+                            <a href="#" class="w-10 h-10 bg-blue-400 text-white rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors duration-200">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-pink-600 rounded-lg flex items-center justify-center text-white hover:bg-pink-700 transition-colors duration-200">
+                            <a href="#" class="w-10 h-10 bg-pink-600 text-white rounded-lg flex items-center justify-center hover:bg-pink-700 transition-colors duration-200">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-white hover:bg-blue-800 transition-colors duration-200">
+                            <a href="#" class="w-10 h-10 bg-blue-700 text-white rounded-lg flex items-center justify-center hover:bg-blue-800 transition-colors duration-200">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         </div>
@@ -255,16 +255,8 @@
                 </div>
 
                 <!-- Formulario de contacto -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-xl font-semibold text-gray-900">
-                            <i class="fas fa-envelope mr-2 text-blue-500"></i>
-                            Envíanos un mensaje
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <x-contact-form />
-                    </div>
+                <div>
+                    <x-contact-form />
                 </div>
             </div>
         </div>
