@@ -25,17 +25,34 @@
         
         <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
             <div class="px-6 py-4">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
+                    
+                    @if ($errors->any())
+                        <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="text-sm text-red-600">
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                        <input type="email" id="email" name="email" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" required>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('email') border-red-500 @enderror" required>
                     </div>
 
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
-                        <input type="password" id="password" name="password" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" required>
+                        <input type="password" id="password" name="password" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('password') border-red-500 @enderror" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" name="remember" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-600">Recordarme</span>
+                        </label>
                     </div>
 
                     <div class="mb-4">

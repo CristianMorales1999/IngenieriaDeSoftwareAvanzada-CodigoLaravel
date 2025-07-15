@@ -14,21 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear usuario de prueba
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
-
-        // Crear usuarios adicionales
-        User::factory(10)->create();
-
-        // Crear servicios usando el factory (esto automáticamente asignará usuarios)
-        Service::factory(30)->create();
-
-        // Ejecutar el seeder de servicios específicos
+        // Ejecutar seeders en orden
         $this->call([
+            UserSeeder::class,
             ServiceSeeder::class,
         ]);
     }

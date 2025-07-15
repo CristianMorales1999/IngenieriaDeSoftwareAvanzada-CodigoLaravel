@@ -49,16 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/servicios/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
 
-// Rutas de autenticación (si no están definidas en otro lugar)
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// Rutas de autenticación
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
-Route::post('/logout', function () {
-    auth()->logout();
-    return redirect()->route('home');
-})->name('logout');
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
