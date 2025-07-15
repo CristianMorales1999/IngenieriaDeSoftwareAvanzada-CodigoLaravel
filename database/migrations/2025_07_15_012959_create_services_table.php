@@ -23,6 +23,9 @@ return new class extends Migration
             // Ruta de la imagen del servicio (opcional)
             $table->string('image_path')->nullable();
             
+            // ID del usuario que creó el servicio
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

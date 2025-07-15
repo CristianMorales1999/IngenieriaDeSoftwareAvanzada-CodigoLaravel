@@ -80,6 +80,7 @@ class ServiceFactory extends Factory
             'title' => $title,
             'description' => fake()->paragraphs(3, true), // Genera 3 párrafos de descripción
             'image_path' => $imagePath,
+            'user_id' => \App\Models\User::factory(), // Asigna un usuario aleatorio
         ];
     }
 
