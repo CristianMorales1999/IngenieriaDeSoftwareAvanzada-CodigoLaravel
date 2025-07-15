@@ -50,9 +50,10 @@
 
                     <div class="mb-4">
                         <label class="flex items-center">
-                            <input type="checkbox" name="remember" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-600">Recordarme</span>
+                            <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-600">Recordarme en este dispositivo</span>
                         </label>
+                        <p class="mt-1 text-xs text-gray-500">Mantendrá tu sesión activa por 30 días</p>
                     </div>
 
                     <div class="mb-4">

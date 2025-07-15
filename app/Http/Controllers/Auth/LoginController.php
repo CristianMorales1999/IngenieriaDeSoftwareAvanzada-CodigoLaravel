@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,29 +32,25 @@ class LoginController extends Controller
 
     /**
      * Procesa el intento de login.
+     * Utiliza LoginRequest para validación y transformación de datos.
      *
-     * @param Request $request
+     * @param LoginRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws ValidationException
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Validar los datos del formulario
-        $credentials = $request->validate([
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ], [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'El formato del correo electrónico no es válido.',
-            'password.required' => 'La contraseña es obligatoria.',
-        ]);
-
+        // Obtener datos validados del Form Request
+        $credentials = $request->only(['email', 'password']);
+        $remember = $request->boolean('remember');
+        
         // Intentar autenticar al usuario
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             // Redirigir al dashboard o a la página anterior
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended(RouteServiceProvider::HOME)
+                ->with('success', '¡Bienvenido de vuelta!');
         }
 
         // Si la autenticación falla, lanzar excepción de validación

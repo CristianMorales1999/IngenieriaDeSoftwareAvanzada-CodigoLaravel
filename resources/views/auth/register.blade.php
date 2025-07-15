@@ -54,21 +54,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label for="mobile" class="block text-sm font-medium text-gray-700 mb-2">Número Móvil (opcional)</label>
-                        <input type="text" id="mobile" name="mobile" value="{{ old('mobile') }}" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('mobile') border-red-500 @enderror">
-                        @error('mobile')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Dirección (opcional)</label>
-                        <textarea id="address" name="address" rows="3" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('address') border-red-500 @enderror">{{ old('address') }}</textarea>
-                        @error('address')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
 
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
@@ -91,6 +77,13 @@
                             <i class="fas fa-user-plus mr-2"></i>
                             Registrarse
                         </button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-xs text-gray-500">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Podrás completar tu perfil con información adicional después del registro
+                        </p>
                     </div>
                 </form>
             </div>

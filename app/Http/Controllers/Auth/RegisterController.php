@@ -33,25 +33,27 @@ class RegisterController extends Controller
 
     /**
      * Procesa el registro de un nuevo usuario.
+     * Utiliza StoreUserRequest para validación y transformación de datos.
      *
      * @param StoreUserRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function register(StoreUserRequest $request)
     {
-        // Crear el nuevo usuario
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'mobile' => $request->mobile,
-            'address' => $request->address,
-        ]);
+        // Obtener datos validados y transformados del Form Request
+        $validatedData = $request->validated();
+        
+        // Hashear la contraseña antes de crear el usuario
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        
+        // Crear el nuevo usuario con los datos validados
+        $user = User::create($validatedData);
 
         // Iniciar sesión automáticamente después del registro
         Auth::login($user);
 
-        // Redirigir al dashboard
-        return redirect(RouteServiceProvider::HOME)->with('success', '¡Cuenta creada exitosamente!');
+        // Redirigir al dashboard con mensaje de éxito
+        return redirect(RouteServiceProvider::HOME)
+            ->with('success', '¡Cuenta creada exitosamente! Bienvenido a ServiPro. Completa tu perfil para una mejor experiencia.');
     }
 } 

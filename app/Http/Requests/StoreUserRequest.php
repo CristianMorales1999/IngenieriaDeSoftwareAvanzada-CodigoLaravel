@@ -30,8 +30,6 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'mobile' => ['nullable', 'string', 'max:20', 'regex:/^[0-9+\-\s()]+$/'],
-            'address' => ['nullable', 'string', 'max:1000'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
@@ -56,13 +54,6 @@ class StoreUserRequest extends FormRequest
             'email.max' => 'El :attribute no puede tener más de 255 caracteres.',
             'email.unique' => 'Este :attribute ya está registrado.',
             
-            'mobile.string' => 'El :attribute debe ser texto.',
-            'mobile.max' => 'El :attribute no puede tener más de 20 caracteres.',
-            'mobile.regex' => 'El formato del :attribute no es válido.',
-            
-            'address.string' => 'La :attribute debe ser texto.',
-            'address.max' => 'La :attribute no puede tener más de 1000 caracteres.',
-            
             'password.required' => 'La :attribute es obligatoria.',
             'password.confirmed' => 'La confirmación de :attribute no coincide.',
             'password.min' => 'La :attribute debe tener al menos 8 caracteres.',
@@ -84,8 +75,6 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'nombre',
             'email' => 'correo electrónico',
-            'mobile' => 'número móvil',
-            'address' => 'dirección',
             'password' => 'contraseña',
             'password_confirmation' => 'confirmación de contraseña',
         ];
@@ -99,13 +88,6 @@ class StoreUserRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // Limpiar y formatear el número móvil si está presente
-        if ($this->has('mobile') && $this->mobile) {
-            $this->merge([
-                'mobile' => $this->cleanMobileNumber($this->mobile)
-            ]);
-        }
-
         // Limpiar espacios en blanco del nombre y email
         if ($this->has('name')) {
             $this->merge([
@@ -120,21 +102,7 @@ class StoreUserRequest extends FormRequest
         }
     }
 
-    /**
-     * Limpia y formatea un número de teléfono móvil.
-     * Elimina caracteres innecesarios y mantiene solo números, +, -, espacios y paréntesis.
-     *
-     * @param string $mobile
-     * @return string
-     */
-    private function cleanMobileNumber(string $mobile): string
-    {
-        // Eliminar caracteres no permitidos excepto números, +, -, espacios y paréntesis
-        $cleaned = preg_replace('/[^0-9+\-\s()]/', '', $mobile);
-        
-        // Eliminar espacios múltiples y trim
-        return trim(preg_replace('/\s+/', ' ', $cleaned));
-    }
+
 
     /**
      * Obtiene datos validados y opcionalmente los transforma.
