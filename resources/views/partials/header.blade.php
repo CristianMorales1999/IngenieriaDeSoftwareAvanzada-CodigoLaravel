@@ -40,6 +40,9 @@
             <!-- User Menu / Auth Buttons -->
             <div class="flex items-center space-x-4">
                 @auth
+                    @php
+                        $user = auth()->user();
+                    @endphp
                     <!-- User Dropdown - Solo mostrar si está autenticado -->
                     <div class="relative inline-block">
                         <button 
@@ -49,15 +52,15 @@
                         >
                             <!-- User Avatar -->
                             <div class="relative">
-                                @if(auth()->user()->hasValidImage())
+                                @if($user && $user->has_valid_image)
                                     <img 
-                                        src="{{ auth()->user()->image_url }}" 
-                                        alt="{{ auth()->user()->name }}"
+                                        src="{{ $user->image_url }}" 
+                                        alt="{{ $user->name ?? 'Usuario' }}"
                                         class="w-8 h-8 rounded-full object-cover"
                                     >
                                 @else
                                     <div class="inline-block h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                        {{ $user ? strtoupper(substr($user->name ?? 'U', 0, 1)) : 'U' }}
                                     </div>
                                 @endif
                                 <!-- Online Status Dot -->
@@ -66,7 +69,7 @@
                             
                             <!-- User Info -->
                             <div class="text-left">
-                                <div class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</div>
+                                <div class="text-sm font-semibold text-gray-900">{{ $user->name ?? 'Usuario' }}</div>
                                 <div class="text-xs text-gray-600">Usuario</div>
                             </div>
                             
@@ -82,20 +85,20 @@
                             <!-- User Full Name Section -->
                             <div class="px-4 py-3 border-b border-gray-100">
                                 <div class="flex items-center space-x-3">
-                                    @if(auth()->user()->hasValidImage())
+                                    @if($user && $user->has_valid_image)
                                         <img 
-                                            src="{{ auth()->user()->image_url }}" 
-                                            alt="{{ auth()->user()->name }}"
+                                            src="{{ $user->image_url }}" 
+                                            alt="{{ $user->name ?? 'Usuario' }}"
                                             class="w-10 h-10 rounded-full object-cover"
                                         >
                                     @else
                                         <div class="inline-block h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-medium">
-                                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                            {{ $user ? strtoupper(substr($user->name ?? 'U', 0, 1)) : 'U' }}
                                         </div>
                                     @endif
                                     <div>
-                                        <div class="text-sm font-semibold text-gray-900">{{ auth()->user()->full_name }}</div>
-                                        <div class="text-xs text-gray-500">{{ auth()->user()->email }}</div>
+                                        <div class="text-sm font-semibold text-gray-900">{{ $user->full_name ?? 'Usuario' }}</div>
+                                        <div class="text-xs text-gray-500">{{ $user->email ?? '' }}</div>
                                     </div>
                                 </div>
                             </div>
