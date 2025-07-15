@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Service;
+use App\Models\User;
 
 class ServiceSeeder extends Seeder
 {
@@ -13,6 +14,14 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
+        // Obtener usuarios existentes o crear algunos si no existen
+        $users = User::all();
+        
+        if ($users->isEmpty()) {
+            // Crear algunos usuarios si no existen
+            $users = User::factory(5)->create();
+        }
+
         // Crear servicios de ejemplo
         $services = [
             [
@@ -57,9 +66,15 @@ class ServiceSeeder extends Seeder
             ]
         ];
 
-        // Insertar cada servicio en la base de datos
+        // Insertar cada servicio en la base de datos asignando un usuario aleatorio
         foreach ($services as $service) {
-            Service::create($service);
+            Service::create([
+                ...$service,
+                'user_id' => $users->random()->id, // Asignar usuario aleatorio
+            ]);
         }
+
+        // Crear servicios adicionales usando el factory
+        Service::factory(20)->create(); // Crear 20 servicios adicionales con usuarios aleatorios
     }
 }
