@@ -1,3 +1,7 @@
+@php
+    $isAuthPage = request()->routeIs('login') || request()->routeIs('register');
+@endphp
+
 <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40 backdrop-blur-custom">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -11,30 +15,32 @@
                 </a>
             </div>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    <i class="fas fa-home mr-2"></i>
-                    Home
-                </a>
-                <a href="#nosotros" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    <i class="fas fa-users mr-2"></i>
-                    Nosotros
-                </a>
-                <a href="#servicios" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    <i class="fas fa-briefcase mr-2"></i>
-                    Servicios
-                </a>
-                <a href="#contacto" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    <i class="fas fa-envelope mr-2"></i>
-                    Contacto
-                </a>
-            </nav>
+            @if(!$isAuthPage)
+                <!-- Desktop Navigation - Solo mostrar si NO es página de auth -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>
+                        Home
+                    </a>
+                    <a href="#nosotros" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        <i class="fas fa-users mr-2"></i>
+                        Nosotros
+                    </a>
+                    <a href="#servicios" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Servicios
+                    </a>
+                    <a href="#contacto" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Contacto
+                    </a>
+                </nav>
+            @endif
 
             <!-- User Menu / Auth Buttons -->
             <div class="flex items-center space-x-4">
                 @auth
-                    <!-- User Dropdown -->
+                    <!-- User Dropdown - Solo mostrar si está autenticado -->
                     <div class="relative inline-block">
                         <button 
                             id="user-button"
@@ -118,60 +124,79 @@
                         </div>
                     </div>
                 @else
-                    <!-- Auth Buttons -->
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2">
-                        <i class="fas fa-sign-in-alt mr-2"></i>
-                        Acceder
-                    </a>
-                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md">
-                        <i class="fas fa-user-plus mr-2"></i>
-                        Registrarse
-                    </a>
-                @endauth
-
-                <!-- Mobile Menu Button -->
-                <button 
-                    onclick="toggleMobileMenu()"
-                    class="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
-                >
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-200">
-                <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
-                    <i class="fas fa-home mr-2"></i>
-                    Home
-                </a>
-                <a href="#nosotros" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
-                    <i class="fas fa-users mr-2"></i>
-                    Nosotros
-                </a>
-                <a href="#servicios" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
-                    <i class="fas fa-briefcase mr-2"></i>
-                    Servicios
-                </a>
-                <a href="#contacto" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
-                    <i class="fas fa-envelope mr-2"></i>
-                    Contacto
-                </a>
-                
-                @guest
-                    <div class="pt-4 space-y-2">
-                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 w-full justify-center">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-                            Acceder
-                        </a>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md w-full justify-center">
+                    <!-- Auth Buttons - Dinámicos según la página -->
+                    @if(request()->routeIs('login'))
+                        <!-- En login, solo mostrar botón de registro -->
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md">
                             <i class="fas fa-user-plus mr-2"></i>
                             Registrarse
                         </a>
-                    </div>
-                @endguest
+                    @elseif(request()->routeIs('register'))
+                        <!-- En register, solo mostrar botón de login -->
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Acceder
+                        </a>
+                    @else
+                        <!-- En otras páginas, mostrar ambos botones -->
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Acceder
+                        </a>
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Registrarse
+                        </a>
+                    @endif
+                @endauth
+
+                @if(!$isAuthPage)
+                    <!-- Mobile Menu Button - Solo mostrar si NO es página de auth -->
+                    <button 
+                        onclick="toggleMobileMenu()"
+                        class="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+                    >
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                @endif
             </div>
         </div>
+
+        @if(!$isAuthPage)
+            <!-- Mobile Navigation - Solo mostrar si NO es página de auth -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-200">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
+                        <i class="fas fa-home mr-2"></i>
+                        Home
+                    </a>
+                    <a href="#nosotros" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
+                        <i class="fas fa-users mr-2"></i>
+                        Nosotros
+                    </a>
+                    <a href="#servicios" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Servicios
+                    </a>
+                    <a href="#contacto" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Contacto
+                    </a>
+                    
+                    @guest
+                        <div class="pt-4 space-y-2">
+                            <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 shadow-sm hover:shadow-md rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 w-full justify-center">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Acceder
+                            </a>
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md w-full justify-center">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Registrarse
+                            </a>
+                        </div>
+                    @endguest
+                </div>
+            </div>
+        @endif
     </div>
 </header> 
