@@ -22,6 +22,9 @@ return new class extends Migration
             
             // Ruta de la imagen del servicio (opcional)
             $table->string('image_path')->nullable();
+
+            // Estado del servicio (activo/inactivo)
+            $table->boolean('is_active')->default(true);
             
             // ID del usuario que creó el servicio
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
