@@ -20,13 +20,47 @@ class ServiceController extends Controller
     /**
      * Muestra la lista de todos los servicios.
      *
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index(): \Illuminate\View\View
+    public function index(Request $request): \Illuminate\View\View
     {
-        $services = Service::with('user')
-            ->latest()
-            ->paginate(12);
+        $query = Service::with('user');
+
+        // Filtro de búsqueda
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Filtro por categoría
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Ordenamiento
+        switch ($request->get('sort', 'latest')) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        $services = $query->paginate(12)->withQueryString();
 
         return view('services.index', compact('services'));
     }
@@ -69,12 +103,11 @@ class ServiceController extends Controller
             $validated['image_path'] = $request->file('image')->store('services', 'public');
         }
 
-        $service = new Service($validated);
-        $service->user_id = auth()->id();
-        $service->save();
+        // Crear el servicio con los datos validados
+        $service = Service::create($validated);
 
-        return redirect()->route('services.show', $service)
-            ->with('success', 'Servicio creado exitosamente.');
+        return redirect()->route('services.my')
+            ->with('success', '¡Excelente! Tu servicio "' . $service->title . '" ha sido creado exitosamente y ya está disponible para la comunidad. Puedes editarlo o crear más servicios desde aquí.');
     }
 
     /**

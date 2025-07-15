@@ -16,60 +16,73 @@ class ServiceFactory extends Factory
      */
     public function definition(): array
     {
-        // Lista de servicios comunes para generar títulos realistas
-        // Usamos shuffle() para evitar repeticiones y tomamos elementos únicos
-        static $availableServices = null;
-        
-        if ($availableServices === null) {
-            $services = [
-                'Limpieza Profesional',
-                'Mantenimiento de Jardines',
-                'Reparación de Electrodomésticos',
+        // Categorías disponibles
+        $categories = [
+            'Desarrollo Web',
+            'Diseño Gráfico',
+            'Marketing Digital',
+            'Consultoría',
+            'Educación',
+            'Otros'
+        ];
+
+        // Títulos de servicios por categoría
+        $serviceTitles = [
+            'Desarrollo Web' => [
+                'Desarrollo de Sitios Web',
+                'Aplicaciones Web',
+                'E-commerce',
+                'Mantenimiento Web',
+                'Optimización SEO',
+                'Integración de APIs'
+            ],
+            'Diseño Gráfico' => [
+                'Diseño de Logos',
+                'Branding Corporativo',
+                'Diseño de Interfaces',
+                'Ilustraciones',
+                'Material Publicitario',
+                'Diseño de Empaques'
+            ],
+            'Marketing Digital' => [
+                'Gestión de Redes Sociales',
+                'Publicidad Digital',
+                'Email Marketing',
+                'Content Marketing',
+                'Analytics y Reportes',
+                'SEO y SEM'
+            ],
+            'Consultoría' => [
+                'Consultoría Empresarial',
+                'Consultoría Tecnológica',
+                'Consultoría Financiera',
+                'Consultoría de Marketing',
+                'Consultoría Legal',
+                'Consultoría de Recursos Humanos'
+            ],
+            'Educación' => [
+                'Clases de Programación',
+                'Tutorías Académicas',
+                'Cursos Online',
+                'Capacitación Empresarial',
+                'Idiomas',
+                'Música y Arte'
+            ],
+            'Otros' => [
+                'Servicio de Limpieza',
                 'Servicio de Plomería',
                 'Servicio de Electricidad',
                 'Servicio de Pintura',
                 'Servicio de Mudanzas',
-                'Servicio de Seguridad',
-                'Servicio de Carpintería',
-                'Servicio de Albañilería',
-                'Servicio de Cerrajería',
-                'Servicio de Climatización',
-                'Servicio de Informática',
-                'Servicio de Fotografía',
-                'Servicio de Catering',
-                'Servicio de Transporte',
-                'Servicio de Masajes',
-                'Servicio de Peluquería',
-                'Servicio de Tintorería',
-                'Servicio de Veterinaria',
-                'Servicio de Diseño Gráfico',
-                'Servicio de Traducción',
-                'Servicio de Contabilidad',
-                'Servicio de Marketing Digital',
-                'Servicio de Desarrollo Web',
-                'Servicio de Consultoría Legal',
-                'Servicio de Coaching Personal',
-                'Servicio de Yoga y Meditación',
-                'Servicio de Entrenamiento Personal',
-                'Servicio de Nutrición',
-                'Servicio de Psicología',
-                'Servicio de Odontología',
-                'Servicio de Fisioterapia',
-                'Servicio de Podología',
-                'Servicio de Optometría',
-                'Servicio de Dermatología'
-            ];
-            
-            shuffle($services); // Mezcla el array para evitar repeticiones
-            $availableServices = $services;
-        }
+                'Servicio de Seguridad'
+            ]
+        ];
+
+        // Seleccionar categoría aleatoria
+        $category = fake()->randomElement($categories);
         
-        // Toma el siguiente servicio disponible o genera uno único
-        $title = array_shift($availableServices);
-        if ($title === null) {
-            // Si se agotaron los servicios predefinidos, genera uno único
-            $title = 'Servicio de ' . fake()->unique()->words(2, true);
-        }
+        // Seleccionar título basado en la categoría
+        $title = fake()->randomElement($serviceTitles[$category]);
 
         // Genera imagen aleatoriamente: 70% de probabilidad de tener imagen, 30% de ser null
         $imagePath = fake()->boolean(70) 
@@ -79,6 +92,9 @@ class ServiceFactory extends Factory
         return [
             'title' => $title,
             'description' => fake()->paragraphs(3, true), // Genera 3 párrafos de descripción
+            'category' => $category,
+            'price' => fake()->randomFloat(2, 50, 2000), // Precio entre $50 y $2000
+            'location' => fake()->randomElement(['Remoto', 'Madrid, España', 'Barcelona, España', 'Valencia, España', 'Sevilla, España']),
             'image_path' => $imagePath,
             'user_id' => \App\Models\User::factory(), // Asigna un usuario aleatorio
         ];

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,16 +24,10 @@ Route::get('/nosotros', [HomeController::class, 'about'])->name('about');
 Route::get('/contacto', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contacto', [HomeController::class, 'contactStore'])->name('contact.store');
 
-// Rutas de servicios (públicas)
-Route::get('/servicios', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/servicios/{service}', [ServiceController::class, 'show'])->name('services.show');
-
 // Rutas protegidas por autenticación
 Route::middleware('auth')->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Perfil de usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile/image', [ProfileController::class, 'deleteImage'])->name('profile.delete-image');
     
-    // Servicios del usuario
+    // Servicios del usuario (deben ir ANTES de las rutas públicas)
     Route::get('/mis-servicios', [ServiceController::class, 'myServices'])->name('services.my');
     Route::get('/servicios/crear', [ServiceController::class, 'create'])->name('services.create');
     Route::post('/servicios', [ServiceController::class, 'store'])->name('services.store');
@@ -48,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/servicios/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/servicios/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
+
+// Rutas de servicios (públicas) - deben ir DESPUÉS de las rutas protegidas
+Route::get('/servicios', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/servicios/{service}', [ServiceController::class, 'show'])->name('services.show');
 
 // Rutas de autenticación
 Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');

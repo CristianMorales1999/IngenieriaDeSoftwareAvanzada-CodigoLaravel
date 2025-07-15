@@ -29,7 +29,10 @@ class StoreServiceRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255', 'min:3'],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
-            'image_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'category' => ['required', 'string', 'max:100', 'in:Desarrollo Web,Diseño Gráfico,Marketing Digital,Consultoría,Educación,Otros'],
+            'price' => ['required', 'numeric', 'min:0.01', 'max:999999.99'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'user_id' => ['required', 'exists:users,id'],
         ];
     }
@@ -54,9 +57,21 @@ class StoreServiceRequest extends FormRequest
             'description.min' => 'La :attribute debe tener al menos 10 caracteres.',
             'description.max' => 'La :attribute no puede tener más de 2000 caracteres.',
             
-            'image_path.image' => 'El archivo debe ser una imagen.',
-            'image_path.mimes' => 'La imagen debe ser de tipo: jpeg, png, jpg, gif o webp.',
-            'image_path.max' => 'La imagen no puede ser mayor a 2MB.',
+            'category.required' => 'La :attribute es obligatoria.',
+            'category.string' => 'La :attribute debe ser texto.',
+            'category.max' => 'La :attribute no puede tener más de 100 caracteres.',
+            
+            'price.required' => 'El :attribute es obligatorio.',
+            'price.numeric' => 'El :attribute debe ser un número.',
+            'price.min' => 'El :attribute debe ser mayor a 0.',
+            'price.max' => 'El :attribute no puede ser mayor a 999,999.99.',
+            
+            'location.string' => 'La :attribute debe ser texto.',
+            'location.max' => 'La :attribute no puede tener más de 255 caracteres.',
+            
+            'image.image' => 'El archivo debe ser una imagen.',
+            'image.mimes' => 'La imagen debe ser de tipo: jpeg, png, jpg, gif o webp.',
+            'image.max' => 'La imagen no puede ser mayor a 2MB.',
             
             'user_id.required' => 'El :attribute es obligatorio.',
             'user_id.exists' => 'El :attribute seleccionado no existe.',
@@ -75,7 +90,10 @@ class StoreServiceRequest extends FormRequest
         return [
             'title' => 'título del servicio',
             'description' => 'descripción del servicio',
-            'image_path' => 'imagen del servicio',
+            'category' => 'categoría del servicio',
+            'price' => 'precio del servicio',
+            'location' => 'ubicación del servicio',
+            'image' => 'imagen del servicio',
             'user_id' => 'usuario',
         ];
     }
@@ -98,6 +116,12 @@ class StoreServiceRequest extends FormRequest
         if ($this->has('description')) {
             $this->merge([
                 'description' => trim($this->description)
+            ]);
+        }
+
+        if ($this->has('location')) {
+            $this->merge([
+                'location' => trim($this->location)
             ]);
         }
 
@@ -131,6 +155,11 @@ class StoreServiceRequest extends FormRequest
             $validated['description'] = ucfirst($validated['description']);
         }
 
+        // Asegurar que la ubicación tenga la primera letra en mayúscula si existe
+        if (isset($validated['location'])) {
+            $validated['location'] = ucfirst($validated['location']);
+        }
+
         return $validated;
     }
 
@@ -142,8 +171,8 @@ class StoreServiceRequest extends FormRequest
      */
     public function handleImageUpload(): ?string
     {
-        if ($this->hasFile('image_path') && $this->file('image_path')->isValid()) {
-            $file = $this->file('image_path');
+        if ($this->hasFile('image') && $this->file('image')->isValid()) {
+            $file = $this->file('image');
             
             // Generar nombre único para la imagen
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();

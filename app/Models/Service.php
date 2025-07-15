@@ -22,6 +22,9 @@ class Service extends Model
     protected $fillable = [
         'title',        // Título del servicio
         'description',  // Descripción detallada del servicio
+        'category',     // Categoría del servicio
+        'price',        // Precio del servicio
+        'location',     // Ubicación del servicio
         'image_path',   // Ruta de la imagen del servicio
         'user_id',      // ID del usuario que creó el servicio
     ];

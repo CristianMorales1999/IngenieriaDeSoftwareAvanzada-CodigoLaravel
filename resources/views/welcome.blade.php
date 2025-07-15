@@ -20,10 +20,17 @@
                     <i class="fas fa-search mr-2"></i>
                     Explorar Servicios
                 </a>
-                <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-white text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-sm hover:shadow-md">
-                    <i class="fas fa-user-plus mr-2"></i>
-                    Registrarse
-                </a>
+                @guest
+                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-white text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-sm hover:shadow-md">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Registrarse
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-white text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-sm hover:shadow-md">
+                        <i class="fas fa-th-large mr-2"></i>
+                        Ir al Dashboard
+                    </a>
+                @endguest
             </div>
         </div>
         

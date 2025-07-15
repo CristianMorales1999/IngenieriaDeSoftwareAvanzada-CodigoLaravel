@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title', 'Editar Perfil')
 @section('description', 'Edita tu información de perfil')
@@ -6,6 +6,24 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="max-w-4xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-th-large mr-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-sm font-medium text-gray-500">Mi Perfil</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Editar Perfil</h1>
             <p class="text-gray-600">Actualiza tu información personal</p>

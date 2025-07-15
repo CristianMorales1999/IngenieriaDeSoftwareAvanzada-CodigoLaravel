@@ -25,44 +25,68 @@ class ServiceSeeder extends Seeder
         // Crear servicios de ejemplo
         $services = [
             [
-                'title' => 'Servicio de Limpieza Profesional',
-                'description' => 'Ofrecemos servicios de limpieza profesional para hogares y oficinas. Nuestro equipo está capacitado para realizar limpieza profunda, mantenimiento regular y servicios especializados. Incluye limpieza de alfombras, ventanas, cocinas y baños.',
-                'image_path' => 'services/limpieza-profesional.jpg'
+                'title' => 'Desarrollo Web Profesional',
+                'description' => 'Desarrollo de sitios web modernos y responsivos usando las últimas tecnologías. Incluye diseño UI/UX, desarrollo frontend y backend, integración de bases de datos y optimización SEO.',
+                'category' => 'Desarrollo Web',
+                'price' => 1500.00,
+                'location' => 'Remoto',
+                'image_path' => null
             ],
             [
-                'title' => 'Mantenimiento de Jardines',
-                'description' => 'Servicio completo de mantenimiento de jardines y áreas verdes. Realizamos poda, riego, fertilización, control de plagas y diseño de jardines. Mantenemos tu jardín hermoso y saludable durante todo el año.',
-                'image_path' => 'services/mantenimiento-jardines.jpg'
+                'title' => 'Diseño de Logos y Branding',
+                'description' => 'Creación de logos profesionales, identidad visual completa y materiales de marca. Diseños únicos y memorables que reflejan la personalidad de tu empresa.',
+                'category' => 'Diseño Gráfico',
+                'price' => 300.00,
+                'location' => 'Remoto',
+                'image_path' => null
             ],
             [
-                'title' => 'Reparación de Electrodomésticos',
-                'description' => 'Servicio técnico especializado en reparación de electrodomésticos. Reparamos refrigeradores, lavadoras, secadoras, hornos microondas y más. Garantía en todas nuestras reparaciones y servicio a domicilio.',
-                'image_path' => 'services/reparacion-electrodomesticos.jpg'
+                'title' => 'Consultoría de Marketing Digital',
+                'description' => 'Estrategias de marketing digital personalizadas para aumentar tu presencia online. Incluye SEO, redes sociales, publicidad digital y análisis de métricas.',
+                'category' => 'Marketing Digital',
+                'price' => 800.00,
+                'location' => 'Madrid, España',
+                'image_path' => null
             ],
             [
-                'title' => 'Servicio de Plomería',
-                'description' => 'Plomeros profesionales disponibles 24/7 para emergencias y servicios programados. Reparamos fugas, instalamos tuberías, desatascamos drenajes y realizamos mantenimiento preventivo. Servicio rápido y confiable.',
-                'image_path' => 'services/plomeria.jpg'
+                'title' => 'Clases de Programación',
+                'description' => 'Clases particulares de programación para principiantes y avanzados. Aprende JavaScript, Python, PHP, Laravel y más. Metodología práctica y personalizada.',
+                'category' => 'Educación',
+                'price' => 50.00,
+                'location' => 'Barcelona, España',
+                'image_path' => null
             ],
             [
-                'title' => 'Servicio de Electricidad',
-                'description' => 'Electricistas certificados para instalaciones, reparaciones y mantenimiento eléctrico. Instalamos sistemas de iluminación, reparamos cortocircuitos, actualizamos paneles eléctricos y realizamos inspecciones de seguridad.',
-                'image_path' => 'services/electricidad.jpg'
+                'title' => 'Consultoría Empresarial',
+                'description' => 'Asesoramiento estratégico para empresas en crecimiento. Análisis de mercado, planificación financiera, optimización de procesos y desarrollo de estrategias.',
+                'category' => 'Consultoría',
+                'price' => 1200.00,
+                'location' => 'Valencia, España',
+                'image_path' => null
             ],
             [
-                'title' => 'Servicio de Pintura',
-                'description' => 'Servicio de pintura residencial y comercial. Pintamos interiores y exteriores, aplicamos texturas, realizamos trabajos de restauración y asesoramos en la selección de colores. Resultados profesionales garantizados.',
-                'image_path' => 'services/pintura.jpg'
+                'title' => 'Diseño de Interfaces Web',
+                'description' => 'Diseño de interfaces de usuario modernas y funcionales. Creación de wireframes, prototipos interactivos y diseño visual para aplicaciones web y móviles.',
+                'category' => 'Diseño Gráfico',
+                'price' => 600.00,
+                'location' => 'Remoto',
+                'image_path' => null
             ],
             [
-                'title' => 'Servicio de Mudanzas',
-                'description' => 'Servicio completo de mudanzas residenciales y comerciales. Empaquetamos, transportamos y desempacamos tus pertenencias con cuidado. Incluye seguro de carga y servicio de montaje de muebles.',
-                'image_path' => 'services/mudanzas.jpg'
+                'title' => 'Mantenimiento de Sitios Web',
+                'description' => 'Servicio de mantenimiento continuo para sitios web. Actualizaciones de seguridad, optimización de rendimiento, respaldos y soporte técnico.',
+                'category' => 'Desarrollo Web',
+                'price' => 200.00,
+                'location' => 'Remoto',
+                'image_path' => null
             ],
             [
-                'title' => 'Servicio de Seguridad',
-                'description' => 'Instalación y mantenimiento de sistemas de seguridad para hogares y negocios. Instalamos cámaras de vigilancia, alarmas, controles de acceso y sistemas de monitoreo 24/7. Protege tu propiedad con tecnología avanzada.',
-                'image_path' => 'services/seguridad.jpg'
+                'title' => 'Gestión de Redes Sociales',
+                'description' => 'Gestión completa de redes sociales para empresas. Creación de contenido, programación de publicaciones, interacción con seguidores y análisis de resultados.',
+                'category' => 'Marketing Digital',
+                'price' => 400.00,
+                'location' => 'Remoto',
+                'image_path' => null
             ]
         ];
 
