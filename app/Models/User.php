@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'email',
         'mobile',
         'address',
+        'image_path',
         'password',
     ];
 
@@ -52,6 +54,19 @@ class User extends Authenticatable
             'updated_at' => 'datetime',
         ];
     }
+
+    /**
+     * Los atributos que se añaden automáticamente al modelo.
+     * Estos son campos calculados que no existen en la base de datos.
+     *
+     * @var array<string>
+     */
+    protected $appends = [
+        'full_name',
+        'contact_info',
+        'image_url',
+        'has_valid_image',
+    ];
 
     /**
      * Relación con los servicios que ha creado el usuario.
@@ -132,5 +147,83 @@ class User extends Authenticatable
     public function checkPassword(string $password): bool
     {
         return Hash::check($password, $this->password);
+    }
+
+    /**
+     * Verifica si el usuario tiene una imagen de perfil válida.
+     *
+     * @return bool
+     */
+    public function hasValidImage(): bool
+    {
+        if (!$this->image_path) {
+            return false;
+        }
+
+        // Si es una URL externa, asumimos que es válida
+        if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+            return true;
+        }
+
+        // Si está en storage, verificamos que el archivo existe
+        return Storage::disk('public')->exists($this->image_path);
+    }
+
+    /**
+     * Accessor para hasValidImage (para usar en vistas).
+     *
+     * @return bool
+     */
+    public function getHasValidImageAttribute(): bool
+    {
+        return $this->hasValidImage();
+    }
+
+    /**
+     * Obtiene la URL de la imagen de perfil del usuario.
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if ($this->hasValidImage()) {
+            if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+                return $this->image_path;
+            }
+            return asset('storage/' . $this->image_path);
+        }
+        
+        return asset('images/default-avatar.png');
+    }
+
+    /**
+     * Elimina la imagen de perfil del usuario si existe.
+     *
+     * @return bool
+     */
+    public function deleteImage(): bool
+    {
+        if ($this->image_path && !filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+            Storage::disk('public')->delete($this->image_path);
+        }
+
+        return $this->update(['image_path' => null]);
+    }
+
+    /**
+     * Guarda una nueva imagen de perfil.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool
+     */
+    public function saveImage($image): bool
+    {
+        // Eliminar imagen anterior si existe
+        $this->deleteImage();
+
+        // Guardar nueva imagen
+        $path = $image->store('users/avatars', 'public');
+        
+        return $this->update(['image_path' => $path]);
     }
 }
