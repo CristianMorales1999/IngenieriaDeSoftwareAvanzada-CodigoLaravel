@@ -1,6 +1,5 @@
 @php
-    $isAuthPage = request()->routeIs('login') || request()->routeIs('register');
-    $currentRoute = request()->route()->getName();
+    $isHomePage = request()->routeIs('home');
     
     // Función helper para verificar si una ruta está activa
     function isRouteActive($routeName) {
@@ -33,8 +32,8 @@
                 </a>
             </div>
 
-            @if(!$isAuthPage)
-                <!-- Desktop Navigation - Solo mostrar si NO es página de auth -->
+            @if($isHomePage)
+                <!-- Desktop Navigation - Solo mostrar si es la página de inicio -->
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                         <i class="fas fa-home mr-2"></i>
@@ -176,8 +175,8 @@
                     @endif
                 @endauth
 
-                @if(!$isAuthPage)
-                    <!-- Mobile Menu Button - Solo mostrar si NO es página de auth -->
+                @if($isHomePage)
+                    <!-- Mobile Menu Button - Solo mostrar si es la página de inicio -->
                     <button 
                         onclick="toggleMobileMenu()"
                         class="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
@@ -188,8 +187,8 @@
             </div>
         </div>
 
-        @if(!$isAuthPage)
-            <!-- Mobile Navigation - Solo mostrar si NO es página de auth -->
+        @if($isHomePage)
+            <!-- Mobile Navigation - Solo mostrar si es la página de inicio -->
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-200">
                     <a href="#home" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block">
