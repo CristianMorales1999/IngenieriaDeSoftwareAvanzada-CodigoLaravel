@@ -3,6 +3,7 @@
 <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group border border-gray-100">
     <!-- Imagen del servicio -->
     <div class="relative overflow-hidden rounded-t-xl">
+        <!-- 1. Capa Base: Imagen o Placeholder -->
         @if($service->has_image)
             <img 
                 src="{{ $service->image_url }}" 
@@ -15,25 +16,31 @@
             </div>
         @endif
         
-        <!-- Badge de estado -->
-        @if($service->isRecent())
-            <div class="absolute top-3 left-3">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    <i class="fas fa-star mr-1"></i>
-                    Nuevo
-                </span>
+        <!-- 2. Capa de Overlay: Se activa con hover -->
+        <div class="absolute inset-0 bg-transparent group-hover:bg-black/50 transition-all duration-300"></div>
+
+        <!-- 3. Capa de Contenido: Botón y Badge -->
+        <div class="absolute inset-0 p-3 flex flex-col">
+            <!-- Badge de estado -->
+            <div>
+                @if($service->isRecent())
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <i class="fas fa-star mr-1"></i>
+                        Nuevo
+                    </span>
+                @endif
             </div>
-        @endif
-        
-        <!-- Overlay con botón de acción -->
-        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-            <a 
-                href="{{ route('services.show', $service) }}" 
-                class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0"
-            >
-                <i class="fas fa-eye mr-2"></i>
-                Ver Detalles
-            </a>
+
+            <!-- Botón que aparece en el centro -->
+            <div class="flex-grow flex items-center justify-center">
+                <a 
+                    href="{{ route('services.show', $service) }}" 
+                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <i class="fas fa-eye mr-2"></i>
+                    Ver Detalles
+                </a>
+            </div>
         </div>
     </div>
 
