@@ -151,7 +151,7 @@
                                 </label>
                                 <p class="pl-1">o arrastrar y soltar</p>
                             </div>
-                            <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 2MB</p>
                         </div>
                     </div>
                     @error('image')
@@ -187,3 +187,63 @@
     </div>
 </div>
 @endsection 
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('image');
+    const uploadArea = document.querySelector('.border-dashed');
+    
+    // Previsualización de imagen
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Crear elemento de imagen para previsualización
+                let preview = uploadArea.querySelector('.image-preview');
+                if (!preview) {
+                    preview = document.createElement('img');
+                    preview.className = 'image-preview mt-4 max-w-xs mx-auto rounded-lg shadow-md';
+                    uploadArea.appendChild(preview);
+                }
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                
+                // Ocultar icono y texto
+                const icon = uploadArea.querySelector('.fas');
+                const textContainer = uploadArea.querySelector('.flex.text-sm');
+                const helpText = uploadArea.querySelector('.text-xs');
+
+                if (icon) icon.style.display = 'none';
+                if (textContainer) textContainer.style.display = 'none';
+                if (helpText) helpText.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Drag and drop
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('border-blue-400', 'bg-blue-50');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            imageInput.files = files;
+            imageInput.dispatchEvent(new Event('change'));
+        }
+    });
+});
+</script>
+@endpush 
