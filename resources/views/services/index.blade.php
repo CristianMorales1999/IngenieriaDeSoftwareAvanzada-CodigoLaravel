@@ -77,13 +77,13 @@
                 <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
                     <!-- Imagen del servicio -->
                     <div class="aspect-w-16 aspect-h-9">
-                        @if($service->image_path)
-                            <img src="{{ asset('storage/' . $service->image_path) }}" 
+                        @if($service->has_image)
+                            <img src="{{ $service->image_url }}" 
                                  alt="{{ $service->title }}" 
                                  class="w-full h-48 object-cover rounded-t-xl">
                         @else
-                            <div class="w-full h-48 bg-gray-200 rounded-t-xl flex items-center justify-center">
-                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                            <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center rounded-t-xl">
+                                <i class="fas fa-briefcase text-4xl text-blue-400"></i>
                             </div>
                         @endif
                     </div>
