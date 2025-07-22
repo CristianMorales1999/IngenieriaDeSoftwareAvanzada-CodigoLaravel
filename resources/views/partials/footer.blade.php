@@ -56,19 +56,19 @@
                 <!-- Enlaces rápidos -->
                 <div class="mb-8 md:mb-0">
                     <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-                    <a href="#home" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
+                    <a href="{{ route('home') }}#home" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
                         <i class="fas fa-home mr-2"></i>
                         Inicio
                     </a>
-                    <a href="#nosotros" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
+                    <a href="{{ route('home') }}#nosotros" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
                         <i class="fas fa-users mr-2"></i>
                         Nosotros
                     </a>
-                    <a href="#servicios" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
+                    <a href="{{ route('services.index') }}" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
                         <i class="fas fa-briefcase mr-2"></i>
                         Servicios
                     </a>
-                    <a href="#contacto" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
+                    <a href="{{ route('home') }}#contacto" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
                         <i class="fas fa-envelope mr-2"></i>
                         Contacto
                     </a>
@@ -89,32 +89,18 @@
                     @endauth
                 </div>
 
-                <!-- Servicios -->
+                <!-- Servicios por Categoría -->
                 <div class="mb-8 md:mb-0">
-                    <h3 class="text-lg font-semibold mb-4">Nuestros Servicios</h3>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-tools mr-2"></i>
-                        Mantenimiento
-                    </a>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-paint-brush mr-2"></i>
-                        Limpieza
-                    </a>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-wrench mr-2"></i>
-                        Reparaciones
-                    </a>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-leaf mr-2"></i>
-                        Jardinería
-                    </a>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-shield-alt mr-2"></i>
-                        Seguridad
-                    </a>
-                    <a href="#" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
-                        <i class="fas fa-truck mr-2"></i>
-                        Mudanzas
+                    <h3 class="text-lg font-semibold mb-4">Categorías Populares</h3>
+                    @foreach(['Desarrollo Web', 'Diseño Gráfico', 'Marketing Digital', 'Consultoría', 'Educación'] as $category)
+                        <a href="{{ route('services.index', ['category' => $category]) }}" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2">
+                            <i class="fas fa-chevron-right mr-2 text-xs"></i>
+                            {{ $category }}
+                        </a>
+                    @endforeach
+                    <a href="{{ route('services.index') }}" class="block text-gray-300 hover:text-white transition-colors duration-200 mb-2 font-semibold">
+                        <i class="fas fa-th-large mr-2"></i>
+                        Ver Todas
                     </a>
                 </div>
 
