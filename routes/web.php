@@ -30,7 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Perfil de usuario
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile/image', [ProfileController::class, 'deleteImage'])->name('profile.delete-image');
@@ -47,6 +48,9 @@ Route::middleware('auth')->group(function () {
 // Rutas de servicios (públicas) - deben ir DESPUÉS de las rutas protegidas
 Route::get('/servicios', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/servicios/{service}', [ServiceController::class, 'show'])->name('services.show');
+
+// Perfil público de usuario
+Route::get('/users/{user}', [ProfileController::class, 'publicShow'])->name('profile.public.show');
 
 // Rutas de autenticación
 Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');

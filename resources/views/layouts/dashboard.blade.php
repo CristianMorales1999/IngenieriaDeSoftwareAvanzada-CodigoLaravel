@@ -42,7 +42,7 @@
                     </a>
 
                     <!-- Mi Perfil -->
-                    <a href="{{ route('profile.edit') }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('profile.*') ? 'bg-blue-100 text-blue-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }} transition-colors duration-200">
+                    <a href="{{ route('profile.show') }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('profile.*') ? 'bg-blue-100 text-blue-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }} transition-colors duration-200">
                         <i class="fas fa-user mr-3 {{ request()->routeIs('profile.*') ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500' }}"></i>
                         Mi Perfil
                     </a>
@@ -175,7 +175,7 @@
                                     </div>
 
                                     <!-- Menu Items -->
-                                    <a href="{{ route('profile.edit') }}" class="block w-full text-left px-4 py-2 text-sm {{ request()->routeIs('profile.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                                    <a href="{{ route('profile.show') }}" class="block w-full text-left px-4 py-2 text-sm {{ request()->routeIs('profile.*') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
                                         <i class="fas fa-user mr-3 {{ request()->routeIs('profile.*') ? 'text-blue-500' : 'text-gray-400' }}"></i>
                                         Mi Perfil
                                     </a>

@@ -4,15 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
+    /**
+     * Muestra el perfil público de un usuario.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\View\View
+     */
+    public function publicShow(User $user): View
+    {
+        // Cargar los servicios del usuario para evitar N+1
+        $user->load(['services' => function ($query) {
+            $query->latest()->take(6);
+        }]);
+
+        return view('profile.public-show', compact('user'));
+    }
+
     /**
      * Constructor del controlador.
      */
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    /**
+     * Muestra el perfil del usuario autenticado.
+     *
+     * @return View
+     */
+    public function show(): View
+    {
+        return view('profile.show', [
+            'user' => auth()->user(),
+        ]);
     }
 
     /**

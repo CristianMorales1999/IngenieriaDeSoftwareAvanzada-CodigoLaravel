@@ -15,10 +15,18 @@
                         Dashboard
                     </a>
                 </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a href="{{ route('profile.show') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                            Mi Perfil
+                        </a>
+                    </div>
+                </li>
                 <li aria-current="page">
                     <div class="flex items-center">
                         <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
-                        <span class="text-sm font-medium text-gray-500">Mi Perfil</span>
+                        <span class="text-sm font-medium text-gray-500">Editar Perfil</span>
                     </div>
                 </li>
             </ol>
@@ -133,7 +141,7 @@
                 </div>
 
                 <!-- Cambiar contraseña -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 mt-6">
+                <div id="security" class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 mt-6 scroll-mt-24">
                     <div class="px-6 py-4 border-b border-gray-100">
                         <h2 class="text-xl font-semibold text-gray-900">Cambiar Contraseña</h2>
                     </div>

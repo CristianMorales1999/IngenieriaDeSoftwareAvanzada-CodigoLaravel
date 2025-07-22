@@ -170,7 +170,7 @@
                     @auth
                         @if(auth()->id() !== $service->user_id)
                             <div class="mt-4 pt-4 border-t border-gray-200">
-                                <a href="{{ route('profile.edit') }}" 
+                                <a href="{{ route('profile.public.show', $service->user) }}" 
                                    class="w-full inline-flex items-center justify-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
                                     <i class="fas fa-user mr-2"></i>
                                     Ver Perfil Completo

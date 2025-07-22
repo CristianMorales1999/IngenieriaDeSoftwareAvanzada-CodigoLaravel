@@ -118,7 +118,7 @@
                             </div>
 
                             <!-- Menu Items -->
-                            <a href="{{ route('profile.edit') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('profile') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
+                            <a href="{{ route('profile.show') }}" class="block w-full text-left px-4 py-2 text-sm {{ isRouteActive('profile') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-100' }} transition-colors duration-200">
                                 <i class="fas fa-user mr-3 {{ isRouteActive('profile') ? 'text-blue-500' : 'text-gray-400' }}"></i>
                                 Mi Perfil
                             </a>
