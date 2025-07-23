@@ -113,21 +113,72 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-4">
-                                <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Imagen de Perfil</label>
-                                <input 
-                                    type="file" 
-                                    id="image" 
-                                    name="image" 
-                                    accept="image/*"
-                                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 @error('image') border-red-500 focus:border-red-500 focus:ring-red-500 @enderror"
-                                >
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 2MB.
-                                </p>
+                            <!-- Sección de imagen de perfil mejorada -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Imagen de Perfil
+                                </label>
+                                
+                                <!-- Contenedor de imagen actual/previsualización -->
+                                <div class="flex items-center space-x-6">
+                                    <div class="flex-shrink-0 relative">
+                                        <!-- Imagen actual -->
+                                        @if(auth()->user()->hasValidImage())
+                                            <img id="current-image" 
+                                                 src="{{ auth()->user()->image_url }}" 
+                                                 class="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+                                                 alt="Imagen actual">
+                                        @else
+                                            <div id="no-image-placeholder" 
+                                                 class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-400 text-4xl"></i>
+                                            </div>
+                                        @endif
+                                        
+                                        <!-- Previsualización de nueva imagen -->
+                                        <img id="image-preview" 
+                                             class="w-32 h-32 rounded-full object-cover border-4 border-blue-200 hidden" 
+                                             alt="Vista previa">
+                                    </div>
+
+                                    <div class="flex flex-col space-y-2">
+                                        <!-- Input de archivo oculto -->
+                                        <input type="file" 
+                                               id="image" 
+                                               name="image" 
+                                               accept="image/*"
+                                               class="hidden"
+                                               onchange="handleImagePreview()">
+
+                                        <!-- Botón personalizado para seleccionar imagen -->
+                                        <button type="button" 
+                                                onclick="document.getElementById('image').click()" 
+                                                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            <i class="fas fa-camera mr-2"></i>
+                                            {{ auth()->user()->hasValidImage() ? 'Cambiar foto' : 'Subir foto' }}
+                                        </button>
+
+                                        <!-- Botón para eliminar imagen -->
+                                        @if(auth()->user()->hasValidImage())
+                                            <button type="button" 
+                                                    onclick="confirmDeleteImage()" 
+                                                    class="inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                <i class="fas fa-trash mr-2"></i>
+                                                Eliminar foto
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                                
+                                <!-- Mensajes de error -->
                                 @error('image')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
+
+                                <!-- Información de formato -->
+                                <p class="mt-2 text-sm text-gray-500">
+                                    Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 2MB
+                                </p>
                             </div>
 
                             <div class="mb-4">
@@ -260,3 +311,39 @@
     </div>
 </div>
 @endsection 
+
+@push('scripts')
+<script>
+function handleImagePreview() {
+    const input = document.getElementById('image');
+    const preview = document.getElementById('image-preview');
+    const previewContainer = document.getElementById('image-preview-container');
+    const currentImage = document.getElementById('current-image');
+    const noImagePlaceholder = document.getElementById('no-image-placeholder');
+
+    input.addEventListener('change', function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                if (currentImage) currentImage.classList.add('hidden');
+                if (noImagePlaceholder) noImagePlaceholder.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+function confirmDeleteImage() {
+    if (confirm('¿Estás seguro de que quieres eliminar tu imagen de perfil?')) {
+        document.querySelector('form[action="{{ route('profile.delete-image') }}"]').submit();
+    }
+}
+</script>
+@endpush

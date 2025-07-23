@@ -27,12 +27,10 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Obtener el ID del usuario que se está actualizando
-        $userId = $this->route('user') ?? $this->input('id');
         
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,{$userId}"],
+            'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,".auth()->id()],
             'mobile' => ['nullable', 'string', 'max:20', 'regex:/^[0-9+\-\s()]+$/'],
             'address' => ['nullable', 'string', 'max:1000'],
             'password' => ['nullable', 'confirmed', Password::defaults()],

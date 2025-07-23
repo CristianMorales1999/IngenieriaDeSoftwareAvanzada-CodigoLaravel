@@ -6,6 +6,24 @@
 @section('content')
 <div class="bg-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Breadcrumbs -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ route('home') }}" class="text-sm text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-home mr-2"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-sm text-gray-500">Perfil de {{ $user->name }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
         <!-- Cabecera del Perfil -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
             <div class="p-8">
@@ -25,23 +43,44 @@
                         <h1 class="text-4xl font-extrabold text-gray-900">{{ $user->name }}</h1>
                         <p class="text-gray-600 mt-1">Miembro en ServiPro desde {{ $user->created_at->format('F Y') }}</p>
                         
+                        <!-- Información de contacto -->
                         <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-4 text-gray-600">
+                            @if($user->email)
+                                <span class="inline-flex items-center">
+                                    <i class="fas fa-envelope mr-2 text-blue-500"></i>
+                                    {{ $user->email }}
+                                </span>
+                            @endif
                             @if($user->mobile)
                                 <span class="inline-flex items-center">
-                                    <i class="fas fa-phone-alt mr-2 text-blue-500"></i> {{ $user->mobile }}
+                                    <i class="fas fa-phone-alt mr-2 text-blue-500"></i>
+                                    {{ $user->mobile }}
                                 </span>
                             @endif
                             @if($user->address)
                                 <span class="inline-flex items-center">
-                                    <i class="fas fa-map-marker-alt mr-2 text-blue-500"></i> {{ $user->address }}
+                                    <i class="fas fa-map-marker-alt mr-2 text-blue-500"></i>
+                                    {{ $user->address }}
                                 </span>
                             @endif
                         </div>
-                        @if($user->email)
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-envelope mr-2 text-blue-500"></i> {{ $user->email }}
+
+                        <!-- Estadísticas -->
+                        <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-6">
+                            <div class="text-center">
+                                <span class="block text-2xl font-bold text-blue-600">{{ $user->services->count() }}</span>
+                                <span class="text-sm text-gray-500">Servicios</span>
+                            </div>
+                            @if(!isset($user->rating))
+                            <div class="text-center">
+                                <span class="block text-2xl font-bold text-blue-600">
+                                    {{ number_format($user->rating, 1) }}
+                                    <i class="fas fa-star text-yellow-400 text-xl"></i>
                                 </span>
-                        @endif
+                                <span class="text-sm text-gray-500">Valoración</span>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,4 +105,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection
