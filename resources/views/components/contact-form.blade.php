@@ -8,7 +8,7 @@
         </h3>
     </div>
     <div class="px-6 py-4">
-        <form action="{{ $action }}" method="POST" class="space-y-6">
+        <form action="{{ $action }}" method="POST" class="space-y-6" id="contact-form">
             @csrf
             
             <!-- Nombre -->
@@ -148,7 +148,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
+    const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     const submitText = document.getElementById('submit-text');
     const submitLoading = document.getElementById('submit-loading');

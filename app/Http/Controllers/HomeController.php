@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Mail\AutoReplyContactFormMail;
+use App\Mail\ContactFormMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -74,8 +77,13 @@ class HomeController extends Controller
             'message.max' => 'El mensaje no puede tener más de 1000 caracteres.',
         ]);
 
-        // Aquí se procesaría el envío del mensaje
-        // Por ejemplo, enviar email, guardar en base de datos, etc.
+        // 1. Email AL EQUIPO (desde el cliente)
+        Mail::to('info@servipro.com')
+            ->send(new ContactFormMail($validated));
+
+        // 2. Email AL CLIENTE (desde ServiPro)
+        Mail::to($validated['email'])
+            ->send(new AutoReplyContactFormMail($validated));
         
         // Por ahora, solo redirigimos con un mensaje de éxito
         return redirect()->back()->with('success', '¡Mensaje enviado exitosamente! Te responderemos pronto.');
